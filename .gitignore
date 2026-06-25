@@ -1,0 +1,32 @@
+# Python
+*.pyc
+__pycache__/
+.venv/
+
+.ruff_cache/
+
+# Videos
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+
+# Images & Graphics
+*.png
+*.svg
+
+# Documents & Text
+*.txt
+*.tex
+
+# Specific Directories
+media/
+images/
+Tex/
+texts/
+videos/
+
+# OS generated files
+.DS_Store
+
