@@ -1,6 +1,6 @@
 # Good Practices   
    
-The preference for `torch.as\_tensor(data, device=device, dtype=torch.float32)` over `torch.as\_tensor(data).float().to(device)` lies in **efficiency** and **clarity**:   
+The preference for `torch.as_tensor(data, device=device, dtype=torch.float32)` over `torch.as_tensor(data).float().to(device)` lies in **efficiency** and **clarity**:   
 1. Gradient Shadowing:   
     - The to(device) "shadows" the gradient. If it is a parameter that requires training, don't use to(device) it.   
 2. **Efficiency**:   

@@ -5,13 +5,14 @@ Note: `Classified` should be read as "classified as class a" below.
 Accuracy    
   → Correctly Classified / Total Number of Test Datapoints   
    
-Precision    
-  → Correctly Classified / (Correctly Classified + Incorrectly Classified)   
-  → Correctly Classified / Total Classified    
+Precision      
+  → Correctly Classified 'A' / Total 'A's the model Classified 
+  → Correctly Classified 'A' / Correctly Classified 'A' + Falsely Classified 'A' 
+
      
 Recall    
-  → Correctly Classified / (Correctly Classified + Not Classified)   
-  → Correctly Classified / Total True Instances   
+  → Correctly Classified 'A' / Total Actual 'A' Instances   
+  → Correctly Classified 'A' / Correctly Classified 'A' + Remaining 'A' Instances
      
 F1   
   → 2 / (( 1 / Recall) + (1 / Precision))   
