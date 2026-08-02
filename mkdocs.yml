@@ -1,0 +1,110 @@
+site_name: AtoZ AI
+site_description: Complete guide and reference notes on AI (PyTorch, ML, DL, RL)
+site_author: Avik Arefin
+docs_dir: doc
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.indexes
+    - navigation.expand
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  generator: false
+
+copyright: Copyright &copy; 2026 Avik Arefin
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Learning Resources: learning-resources.md
+  - Fundamentals:
+      - Linear Regression: linear-regression.md
+      - Activation Functions: activation-functions.md
+      - Loss Functions: loss.md
+      - Evaluation Metrics: evaluation-matrics.md
+      - Feature Scaling: feature_scaling.md
+      - Tensor Shapes & Operations: shape.md
+      - Practical Tensor Multiplication: practical-tensor-multiplication.md
+      - CPU & GPU Bottlenecks: cpu_gpu_bottleneck.md
+      - Diagnosing Model Performance: diagnosing_model_performance.md
+      - Hyperparameter Optimization: hyperparameters_and_model_optimization.md
+  - PyTorch Essentials:
+      - PyTorch Fundamentals: pytorch_fundamentals.md
+      - Data Preparation: pytorch_data_preparation.md
+      - Moving Tensors to Device: pytorch_to_device.md
+  - Neural Networks:
+      - ANN Forward Propagation: ann-forward-propogation.md
+      - ANN Backpropagation: ann-backpropogation.md
+      - Optimizers: optimizer.md
+  - Computer Vision:
+      - Noise & Filters: noise-and-filters.md
+      - Reading a CNN: reading-a-convolutional-neural-network.md
+      - Finding Input Size in CNN: finding-input-size-in-cnn.md
+      - Input-Size Agnostic CNN: input-size-agnostic-cnn.md
+      - ResNet: resnet.md
+      - Data Augmentation: data_augmentation.md
+  - Sequence to Sequence:
+      - RNN: rnn.md
+      - LSTM & GRU: lstm-gru.md
+      - Tokenization: tokenizetion.md
+      - Embeddings: embedding.md
+      - Transformers: transformer.md
+      - Selective State Space Models (Mamba): selective-state-space-model.md
+      - LLM: build-your-own-llm.md
+  - Topics:
+      - Multi-Task Learning (MTL): multi-task-learning-mtl.md
+      - Joint Embedding Predictive Architecture (JEPA): jepa.md
+      - Transfer Learning: transfer-learning.md
+  - Mechanistic Interpretability: mech-interp.md
+  - Reinforcement Learning: 
+      - Intro to RL: reinforcement-learning.md
+  - Miscellaneous: MISC.md

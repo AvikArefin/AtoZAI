@@ -1,29 +1,29 @@
-# Optimizer   
-We will talk about Adam and other kinds of optimizers on another day, for now we are interested in something called EMA.   
-   
-EMA (Exponential Moving Average)   
+# Optimizers
+
+We will cover Adam and other gradient-based optimizers in detail on another page; here we focus on **EMA (Exponential Moving Average)**.
+
+## Exponential Moving Average (EMA)
+
+General EMA formula:
 
 $$
-New\ Average\ =\ α⋅(New Value)+(1−α)⋅(Old Average)
+\text{New Average} = \alpha \cdot \text{New Value} + (1 - \alpha) \cdot \text{Old Average}
 $$
-   
-In machine learning, we use EMA to update the weights of a **Target Encoder** (the "Teacher") using the weights of the **Online Encoder** (the "Student"):   
+
+In self-supervised learning architectures (like JEPA and BYOL), we use EMA to update the weights of a **Target Encoder** (the "Teacher") using the weights of the **Online Encoder** (the "Student"):
 
 $$
-θ _{target} ←m⋅θ_{target} +(1−m)⋅θ_{online}
-
-
+\theta_{\text{target}} \leftarrow m \cdot \theta_{\text{target}} + (1 - m) \cdot \theta_{\text{online}}
 $$
-- θ target: The weights of the Target Encoder (with no gradients calculated).   
-- θ online: The active weights of the Online Encoder (updated by backpropagation).   
-- m: The **momentum decay rate** (usually a high value like 0.98 or 0.999).   
-   
-**Why do this?** If the Target Encoder immediately copied the Online Encoder (m=0), the network would suffer from representation collapse (it would learn to output useless constants).   
-   
-Note:   
-**Transformer Encoder:** A specific Lego brick (Self-Attention + FFN + Norm).   
-**Target/Online Encoder:** The label we give to the parts of the model that convert input text into vectors for the JEPA comparison game.   
-   
-**Representation collapse**   
-   
-   
+
+- **$\theta_{\text{target}}$**: The weights of the Target Encoder (with no gradients calculated).
+- **$\theta_{\text{online}}$**: The active weights of the Online Encoder (updated by backpropagation).
+- **$m$**: The **momentum decay rate** (usually a high value like 0.98 or 0.999).
+
+**Why do this?** If the Target Encoder immediately copied the Online Encoder ($m = 0$), the network would suffer from **representation collapse** (it would learn to output useless constant vectors).
+
+---
+
+### Terminology Notes
+- **Transformer Encoder**: A specific building block consisting of Self-Attention, Feed-Forward Network, and Layer Normalization.
+- **Target/Online Encoder**: The functional roles assigned to sub-networks when converting inputs into vectors for representation learning.

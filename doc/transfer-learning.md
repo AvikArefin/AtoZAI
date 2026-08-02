@@ -4,23 +4,23 @@ We can say there are two parts of a CNN.
 Featureiser and Classifier    
 We usually only need to train the classifier   
    
-```
+```python
 from torchvision.models import alexnet
 from torchvision.models.alexnet import AlexNet_Weights
 ```
-```
+```python
 def freeze_model(model: nn.Module) -> nn.Module:
     for param in model.parameters():
         param.requires_grad = False
     return model
 ```
-```
+```python
 alex = alexnet(weights=AlexNet_Weights.IMAGENET1K_V1)
 freeze_model(alex)
 alex.classifier[6] = nn.Linear(4096, 3) # Unfreeze the last layer
 
 ```
-```
+```python
 # To check how the original dataset was normalized
 print(AlexNet_Weights.IMAGENET1K_V1.transforms())
 
@@ -33,7 +33,7 @@ print(AlexNet_Weights.IMAGENET1K_V1.transforms())
 #)
 ```
 If we want to use our custom data we must normalize the same we the original data was normalized.   
-```
+```python
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
 std=[0.229, 0.224, 0.225])
 ```

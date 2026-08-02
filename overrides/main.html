@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div style="margin: 0 0 24px 0; border-radius: 0; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+    <div style="height: 16px; background: repeating-linear-gradient(-45deg, #ffd700, #ffd700 15px, #000000 15px, #000000 30px);"></div>
+    <div style="background: #18181c; color: #ffffff; padding: 20px 24px; text-align: center;">
+      <div style="font-size: 1.3em; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #ffd700; margin-bottom: 6px;">
+        CAUTION: WORK IN PROGRESS
+      </div>
+      <div style="font-size: 1.05em; color: #e0e0e0; line-height: 1.5;">
+        This content is currently being actively written and is <strong>nowhere close to being finished</strong>.
+      </div>
+    </div>
+    <div style="height: 16px; background: repeating-linear-gradient(-45deg, #ffd700, #ffd700 15px, #000000 15px, #000000 30px);"></div>
+  </div>
+  {{ super() }}
+{% endblock %}

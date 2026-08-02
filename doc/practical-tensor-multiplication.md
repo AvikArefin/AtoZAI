@@ -5,14 +5,14 @@ TensorA =  mno
 TensorB =  moy   
 and the result will be TensorAB → mny   
    
-Let's say our neural network has an operation:   
-1. mod\_x = w1\*x    
-2. out = tanh(mod\_x + pre\_hidden + b)   
-3. new\_hidden = w2\*out   
+Let's say our neural network has the operations:   
+1. $x_{\text{mod}} = w_1 \cdot x$    
+2. $\text{out} = \tanh(x_{\text{mod}} + \text{hidden}_{\text{prev}} + b)$   
+3. $\text{hidden}_{\text{new}} = w_2 \cdot \text{out}$   
    
 (Taken from the previous RNN page; a slightly, simply for the sake of it, modified version of the original RNN)   
 And we wish to replicate the 1st line in our forward propogation:   
-```
+```python
 class SimpleRNN(nn.Module):    
 	def __init__(self, input_size, hidden_size):
         super(SimpleRNN, self).__init__()
@@ -43,7 +43,7 @@ TensorA =  mno
 TensorB =  moy   
    
 and the resulting Tensor[AB] will be of dimension → mny   
-```
+```python
 m, n, o, y = 2, 3, 4, 5
 
 ## Define new tensors

@@ -5,7 +5,7 @@ How to find the correct input size for a CNN?
 [Reading a Convolutional Neural Network](reading-a-convolutional-neural-network.md)    
    
 2. Brute force i   
-```
+```python
 
 import torch
 
@@ -19,13 +19,13 @@ def find_min_input_size(model, in_channels=1, max_size=256):
             continue
     return None
 ```
-```
+```python
 min_size = find_min_input_size(lennet32)
 print(f"Minimum input size for model: {min_size}x{min_size}")
 ```
 > Additional Context    
 
-```
+```python
 lennet32 = nn.Sequential(
     # Block 1: 1@32x32 -> 6@32x32 -> 6@16x16
     nn.Conv2d(in_channels=1, out_channels=6, kernel_size=3, padding=1), # 32 - 3 + 2*1 + 1 = 32

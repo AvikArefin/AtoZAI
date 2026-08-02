@@ -32,7 +32,7 @@ Output = Input
 
 $$
 Let's take lennet as an example:   
-```
+```python
 num_classes = 9
 # Define the sequential model
 cnn1 = nn.Sequential(

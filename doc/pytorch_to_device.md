@@ -15,7 +15,7 @@ The preference for `torch.as_tensor(data, device=device, dtype=torch.float32)` o
  --- 
    
 ### Corrected Code   
-```
+```python
 # Preferred: Specify device and dtype during creation
 torch.as_tensor(data, device=device, dtype=torch.float32)
 
@@ -24,7 +24,7 @@ torch.as_tensor(data).float().to(device)
 
 
 ```
-```
+```python
 # FINAL
 # We can specify the device at the moment of creation
 # RECOMMENDED!

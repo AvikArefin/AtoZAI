@@ -1,0 +1,54 @@
+name: Deploy Zensical Book to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          key: zensical-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
+          path: ~/.cache/pip
+
+      - name: Install Zensical
+        run: |
+          pip install zensical
+
+      - name: Build Site
+        run: |
+          zensical build
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

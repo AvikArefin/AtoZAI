@@ -1,6 +1,4 @@
-# Diagnosing Model 
-
-combine the content of [text](health-of-models-application-of-eval-matrics.md)
+# Diagnosing Model Performance
 
 ## 1. The Sanity Check: Overfitting
 
@@ -121,7 +119,7 @@ xychart-beta
 The validation dataset does not provide sufficient information to evaluate the ability of the model to generalize.
 
 #### Case 1: Noisy Validation Curve
-* **Cause:** Talidation dataset has too few examples compared to the training dataset.
+* **Cause:** Validation dataset has too few examples compared to the training dataset.
 * **Symptom:** Training loss curve looks like a good fit (or other fits), but validation loss shows **noisy, erratic movements** around the training loss curve.
 
 ```mermaid

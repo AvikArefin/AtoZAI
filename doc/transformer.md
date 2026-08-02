@@ -6,10 +6,6 @@ Where,
 Encoder is,   
 (Multi-Head Self Attention + Residual Connection) → Layer Norm1 → (Feed Forward Network + Residual Connection) → Layer Norm2   
    
-```bash
-rm -rf
-```
-   
    
 In this video you will learn,   
 
@@ -18,7 +14,5 @@ How multi-head attention works (using attention)
 How the transformer works (using multi-head attention and encoder decoder architecture)   
 How Language Models work (Using multi-head attention and the decoder)   
 
-$$
-https://www.youtube.com/watch?v=KMHkbXzHn7s
-$$
+[Watch: Transformer Video Guide](https://www.youtube.com/watch?v=KMHkbXzHn7s)
    

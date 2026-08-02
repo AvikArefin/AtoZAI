@@ -30,3 +30,6 @@ videos/
 # OS generated files
 .DS_Store
 
+# MkDocs build directory
+site/
+

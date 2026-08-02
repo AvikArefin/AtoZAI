@@ -5,7 +5,7 @@ we know regular CNN has an input size contraint.
    
 One of the ways we can solve this is by using    
 `AdapdiveAveragePool`    
-```
+```python
 lennet32Agnostic = nn.Sequential(
     # Block 1: 1@32x32 -> 6@32x32 -> 6@16x16
     nn.Conv2d(in_channels=1, out_channels=6, kernel_size=3, padding=1), # 32 - 3 + 2*1 + 1 = 32
@@ -30,7 +30,7 @@ lennet32Agnostic = nn.Sequential(
     nn.Linear(in_features=84, out_features=10)
 ).to(device)
 ```
-```
+```python
 size = 256 # Change as you like
 imageAgnostic = torch.zeros((1, 1, size, size), dtype=torch.float32)
 lennet32Agnostic.forward(imageAgnostic.to(device)) # This lennet model was originally for 32x32 input

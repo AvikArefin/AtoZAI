@@ -1,0 +1,45 @@
+/* Custom CSS for AtoZ AI Book */
+
+/* Full justified text for paragraphs and list items */
+.md-typeset p,
+.md-typeset li {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Container styling for Mermaid diagrams */
+.mermaid,
+[data-md-color-scheme="slate"] .mermaid {
+  background-color: #ffffff !important;
+  padding: 16px !important;
+  border-radius: 8px !important;
+  margin: 1em 0 !important;
+  display: block;
+}
+
+/* Force all text elements in Mermaid diagrams to be dark black in both light and dark themes */
+.mermaid text,
+.mermaid tspan,
+.mermaid .label,
+.mermaid .node label,
+.mermaid .cluster label,
+.mermaid .legend text,
+.mermaid .titleText,
+.mermaid .axis text,
+.mermaid foreignObject,
+.mermaid foreignObject div,
+.mermaid foreignObject span,
+[data-md-color-scheme="slate"] .mermaid text,
+[data-md-color-scheme="slate"] .mermaid tspan,
+[data-md-color-scheme="slate"] .mermaid .label,
+[data-md-color-scheme="slate"] .mermaid .node label,
+[data-md-color-scheme="slate"] .mermaid .cluster label,
+[data-md-color-scheme="slate"] .mermaid .legend text,
+[data-md-color-scheme="slate"] .mermaid .titleText,
+[data-md-color-scheme="slate"] .mermaid .axis text,
+[data-md-color-scheme="slate"] .mermaid foreignObject,
+[data-md-color-scheme="slate"] .mermaid foreignObject div,
+[data-md-color-scheme="slate"] .mermaid foreignObject span {
+  fill: #111111 !important;
+  color: #111111 !important;
+}

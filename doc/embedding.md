@@ -16,23 +16,17 @@ See from min 5min to 10min mark
    [0.2, 0.8, …]],   
    
 Here each row represents a token, so there should be 6 rows   
-![image_1779920193822_0](files/image_1779920193822_0.png)    
+
    
 A shallow neural network of input size of the total token size and the output is the size of the total dimension (i.e. how many dimension we we want to represent the token in).   
-   
-![image_1779920637533_0](files/image_1779920637533_0.png)    
+    
    
 For the output of the decoder tho, this is the embedding network is opposite, so, the embedding dimension is the input and the the total token vocabulary size is the output.   
    
 
-$$
-https://youtu.be/hVM8qGRTaOA?si=JGexx4PsCpA5ZK0Y&t=890
-$$
-   
+[Watch: Word Embeddings Overview](https://youtu.be/hVM8qGRTaOA?si=JGexx4PsCpA5ZK0Y&t=890)
 
-$$
-https://www.youtube.com/watch?v=l4is4uHvKlU
-$$
+[Watch: Embeddings Deep Dive](https://www.youtube.com/watch?v=l4is4uHvKlU)
    
    
    

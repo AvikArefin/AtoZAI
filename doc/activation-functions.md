@@ -16,7 +16,6 @@ The Sigmoid function maps any real number to the range (0, 1). Used in Binary Cl
 ### Multiclass Classification
 $$
 \text{Softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}}
-
 $$
    
 The Soft-max function converts a vector of real numbers into a probability distribution, i.e. it shows how much each value is likely to occur as a percentage value. Hence, here, the sum of outputs for all the categories is 1.   
@@ -24,5 +23,6 @@ The Soft-max function converts a vector of real numbers into a probability distr
 $$
 \text{ReLU}(x) = \max(0, x)
 $$
+
 The ReLU function outputs the input if it is positive; otherwise, it outputs zero.   
    

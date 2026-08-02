@@ -8,7 +8,7 @@ torch.tensor([[1, 2, 3],
 #### 1. Unsqueeze(0)
 
 *Wrap the entire tensor in a list* i.e. create a new dimension at dimension index 0
-```
+```python
 tensor([[[1, 2, 3],
          [4, 5, 6]]])
 ```
@@ -16,7 +16,7 @@ tensor([[[1, 2, 3],
 #### 2. Unsqueeze(-1)
 
 *Wrap each value in a as a list* 
-```
+```python
 tensor([[[1], [2], [3]],
          [[4], [5], [6]]])
 ```
@@ -26,7 +26,7 @@ tensor([[[1], [2], [3]],
 
 Wrap each inner list in a list, i.e. create a new dimension at dimension index 1
 
-```
+```python
 tensor([[[1, 2, 3]],
         [[4, 5, 6]]])
 ```
@@ -37,7 +37,7 @@ For each dimension selection `(start:stop:step)` is followed, tho often times, i
 
 An example would clear things up:
 
-```
+```python
 image_list = torch.rand(2, 3, 4, 4)
 ```
 
@@ -45,14 +45,14 @@ Here, we have two images, 3 channels and where each image is of size (height and
 
 If we only want to take the first channel from all the images:
 
-```
+```python
 red_image_list = image_list[:, 0:1, :, :]
 red_image_list.shape
 ```
 
 Output:
 
-```
+```python
 torch.Size([2, 1, 4, 4])
 ```
 
@@ -64,12 +64,12 @@ Note 2: If we use `image_list[:, 0, :, :]` we will get a tensor of shape `(2, 4,
 
 ### Max, Min
 
-```
+```python
 torch.max(range2d)
 ```
 given,
 
-```
+```python
 range2d = torch.tensor([[[1, 2, 3],
                         [4, 5, 6]]])
 ```
