@@ -145,7 +145,59 @@ xychart-beta
 ```
 
 
-## 5. Summary Diagnostic Checklist
+## 5. Data & Model Quality Diagnostics
+
+Modern ML pipelines require automated data and model quality checks beyond raw loss curves to catch subtle distribution shifts, corrupted labels, and feature leaks.
+
+### Tooling Overview
+
+| Diagnostic Area | Key Tools | Primary Purpose |
+| :--- | :--- | :--- |
+| **Data Drift & Distribution Shift** | **Evidently AI**, **Deepchecks** | Detect statistical divergence (KS-test, PSI, Wasserstein distance) between train and validation/production distributions. |
+| **Label Noise Detection** | **Cleanlab** | Identify mislabeled training samples, ambiguous annotations, and label errors using confident learning. |
+| **Data Leakage Audits** | **Deepchecks**, **Evidently AI** | Detect features that leak future or target information before model training. |
+
+---
+
+### A. Data Drift & Distribution Shifts
+* **Symptom**: Model performs poorly on validation/test data despite low training loss and normal capacity.
+* **Diagnosis**: Train and validation data distributions differ ($P(X_{\text{train}}) \neq P(X_{\text{val}})$).
+* **Detection**:
+  * **Deepchecks**: `TrainTestFeatureDrift` suite calculates drift metrics (Earth Mover's Distance, Kolmogorov-Smirnov test) per feature.
+  * **Evidently AI**: `DataDriftPreset` outputs interactive reports flagging drifted features across data splits.
+
+---
+
+### B. Label Noise & Mislabeled Data
+* **Symptom**: Training loss plateaus prematurely or model memorizes incorrect labels, causing poor generalization.
+* **Diagnosis**: Ground-truth target annotations in the training set contain noise or human labeling errors.
+* **Detection**:
+  * **Cleanlab**: Uses out-of-fold predicted probabilities to find label issues with Confident Learning.
+  ```python
+  from cleanlab.filter import find_label_issues
+
+  # Identify indices of likely mislabeled training data
+  issue_indices = find_label_issues(
+      labels=train_labels,
+      pred_probs=out_of_fold_probs,
+      return_indices_ranked_by='self_confidence'
+  )
+  ```
+
+---
+
+### C. Data Leakage
+* **Symptom**: Validation accuracy is suspiciously perfect (e.g. 99.9%) or loss drops near zero on epoch 1.
+* **Diagnosis**: Feature data directly or indirectly contains information about the target variable or future states.
+* **Common Sources**:
+  1. **Preprocessor Leakage**: Fitting feature scalers/encoders on the entire dataset prior to train/val splitting.
+  2. **Temporal Leakage**: Splitting time-series data randomly instead of chronologically.
+  3. **Direct Feature Leakage**: Including target proxy variables in feature matrices.
+* **Detection**:
+  * **Deepchecks**: `DataLeakage` check measures single-feature predictive power against target variables prior to modeling.
+
+
+## 6. Summary Diagnostic Checklist
 
 
 | Observation | Primary Diagnosis | Recommended Actions |
@@ -158,3 +210,7 @@ xychart-beta
 | **Train & Val improving, but persistent large gap** | Unrepresentative Train Dataset | Increase training dataset size relative to validation dataset. |
 | **Val loss noisy/erratic around Train loss** | Unrepresentative Validation Dataset | Increase validation dataset size for a more reliable generalization metric. |
 | **Val loss consistently lower than Train loss** | Validation Dataset Too Easy | Re-evaluate dataset split; check for data leaks or biased validation sampling. |
+| **Loss drops to near zero in Epoch 1** | Data Leakage | Audit features with Deepchecks/Evidently AI for target correlation; fit scalers only on training split. |
+| **Train vs Val distributions diverge** | Data Drift | Run Deepchecks `TrainTestFeatureDrift` / Evidently AI to isolate shifted features; collect domain data. |
+| **High training loss with high model capacity** | Label Noise | Use Cleanlab (`find_label_issues`) to locate and clean mislabeled training samples. |
+

@@ -104,7 +104,7 @@ nav:
       - Multi-Task Learning (MTL): multi-task-learning-mtl.md
       - Joint Embedding Predictive Architecture (JEPA): jepa.md
       - Transfer Learning: transfer-learning.md
-  - Mechanistic Interpretability: mech-interp.md
+  - Explainable AI (XAI): explainable-ai.md
   - Reinforcement Learning: 
       - Intro to RL: reinforcement-learning.md
   - Miscellaneous: MISC.md
