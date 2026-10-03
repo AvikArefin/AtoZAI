@@ -1,0 +1,105 @@
+---
+import '@fontsource-variable/inter'
+import '@fontsource-variable/space-grotesk'
+import '@fontsource-variable/jetbrains-mono'
+import 'katex/dist/katex.min.css'
+import '../styles/global.css'
+import { nav, type NavItem } from '../nav'
+
+interface Props { title: string; slug: string }
+const { title, slug } = Astro.props
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+const href = (s: string) => (s === 'index' ? `${base}/` : `${base}/${s}/`)
+const contains = (item: NavItem): boolean => ('slug' in item ? item.slug === slug : item.items.some(contains))
+
+// flat reading order for prev / next + section label
+type Flat = { label: string; slug: string; section?: string }
+const flat: Flat[] = nav.flatMap(item =>
+  'slug' in item ? [item] : item.items.flatMap(sub => ('slug' in sub ? [{ ...sub, section: item.label }] : [])),
+)
+const i = flat.findIndex(p => p.slug === slug)
+const prev = i > 0 ? flat[i - 1] : undefined
+const next = i >= 0 && i < flat.length - 1 ? flat[i + 1] : undefined
+const section = flat[i]?.section
+const pad = (n: number) => String(n).padStart(2, '0')
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Complete guide and reference notes on AI (PyTorch, ML, DL, RL)" />
+    <title>{slug === 'index' ? 'AtoZ AI' : `${title} — AtoZ AI`}</title>
+    <link rel="preload" href={`${base}/fonts/DepartureMono-Regular.woff2`} as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <input type="checkbox" id="nav-toggle" class="sr-only" aria-hidden="true" />
+    <label for="nav-toggle" class="key key--icon menu" aria-label="Toggle navigation">
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5"/></svg>
+    </label>
+
+    <div class="shell">
+      <nav class="sidebar" aria-label="Chapters">
+        <div class="sidebar-head">
+          <a class="brand" href={`${base}/`}>
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span>AtoZ<span class="brand-slash">/</span>AI</span>
+          </a>
+          <button class="key key--icon" id="theme" type="button" aria-label="Toggle light / dark">
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 2.5v11A5.5 5.5 0 0 0 8 2.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <ul>
+          {nav.map((item, n) => 'slug' in item ? (
+            <li><a href={href(item.slug)} aria-current={item.slug === slug ? 'page' : undefined}>{item.label}</a></li>
+          ) : (
+            <li class="group">
+              <details open={contains(item)}>
+                <summary><span class="idx">{pad(n)}</span>{item.label}</summary>
+                <ul>
+                  {item.items.map(sub => 'slug' in sub && (
+                    <li><a href={href(sub.slug)} aria-current={sub.slug === slug ? 'page' : undefined}>{sub.label}</a></li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ))}
+        </ul>
+        <p class="sidebar-foot label"><span class="led" aria-hidden="true"></span>Work in progress · © 2026 Avik Arefin</p>
+      </nav>
+
+      <main id="content" class="desk">
+        <article
+          class="paper"
+          data-href={href(slug)}
+          data-title={slug === 'index' ? 'AtoZ AI' : `${title} — AtoZ AI`}
+          data-prev={prev && href(prev.slug)}
+          data-next={next && href(next.slug)}
+        >
+          <div class="prose"><slot /></div>
+        </article>
+      </main>
+
+      <aside class="toc" aria-label="On this page" hidden>
+        <p class="label">On this page</p>
+        <ul></ul>
+      </aside>
+    </div>
+
+    <script>
+      import '../scripts/reader'
+
+      // theme key: cycles light ↔ dark, remembered per browser
+      document.getElementById('theme')?.addEventListener('click', () => {
+        const root = document.documentElement
+        const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
+        root.dataset.theme = dark ? 'light' : 'dark'
+        try { localStorage.setItem('theme', root.dataset.theme) } catch {}
+      })
+    </script>
+  </body>
+</html>

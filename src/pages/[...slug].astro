@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from 'astro:content'
+import Layout from '../layouts/Layout.astro'
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs')
+  return docs.map(entry => ({
+    params: { slug: entry.id === 'index' ? undefined : entry.id },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content, headings } = await render(entry)
+const title = headings.find(h => h.depth === 1)?.text ?? entry.id
+---
+<Layout title={title} slug={entry.id}>
+  <Content />
+</Layout>

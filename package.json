@@ -1,0 +1,43 @@
+{
+  "name": "atozai",
+  "version": "1.0.0",
+  "description": "AtoZ AI — notes on ML/DL/RL with live Theatre.js animations",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AvikArefin/AtoZAI.git"
+  },
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/AvikArefin/AtoZAI/issues"
+  },
+  "homepage": "https://github.com/AvikArefin/AtoZAI#readme",
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@theatre/core": "^0.7.2",
+    "@theatre/studio": "^0.7.2",
+    "astro": "^7.3.5",
+    "katex": "^0.19.0",
+    "mdast-util-from-markdown": "^2.1.0",
+    "mermaid": "^12.1.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "unist-util-visit": "^5.1.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  }
+}
