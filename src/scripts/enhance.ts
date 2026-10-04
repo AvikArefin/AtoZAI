@@ -6,8 +6,14 @@ export function enhance(root: HTMLElement) {
   mountScenes(root)
 
   // copy key on every code block
+  // The key and language label live on a non-scrolling wrapper, so they stay put while the code scrolls sideways.
   root.querySelectorAll<HTMLPreElement>('.prose pre').forEach(pre => {
-    if (pre.querySelector('.copy-key')) return
+    if (pre.parentElement?.classList.contains('code-block') || pre.dataset.language === 'mermaid' || pre.querySelector('code.language-mermaid')) return
+    const wrap = document.createElement('div')
+    wrap.className = 'code-block'
+    if (pre.dataset.language) wrap.dataset.language = pre.dataset.language
+    pre.replaceWith(wrap)
+    wrap.appendChild(pre)
     const btn = document.createElement('button')
     btn.type = 'button'
     btn.className = 'copy-key'
@@ -23,7 +29,7 @@ export function enhance(root: HTMLElement) {
       }
       setTimeout(() => { btn.textContent = 'Copy'; delete btn.dataset.state }, 1500)
     })
-    pre.appendChild(btn)
+    wrap.appendChild(btn)
   })
 
   // ```mermaid fences render client-side, only on sheets that have them

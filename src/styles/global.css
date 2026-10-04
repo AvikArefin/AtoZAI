@@ -150,7 +150,9 @@ a { color: inherit; }
 .prose :not(pre) > code { padding: .12em .38em; border-radius: 4px; background: var(--sunken); color: var(--ink); }
 .prose pre { position: relative; margin: 1.4em 0; padding: 18px 20px; overflow-x: auto; border-radius: 8px;
   background: var(--code-bg) !important; border: 1px solid var(--code-rule); font-size: 14px; line-height: 1.6; }
-.prose pre[data-language]::before { content: attr(data-language); position: absolute; top: 15px; right: 82px;
+.prose .code-block { position: relative; margin: 1.4em 0; }
+.prose .code-block > pre { margin: 0; }
+.prose .code-block[data-language]::before, .prose pre[data-language]:not(.code-block > pre)::before { z-index: 1; pointer-events: none; content: attr(data-language); position: absolute; top: 15px; right: 82px;
   font: 400 10px/1 var(--font-label); letter-spacing: .1em; text-transform: uppercase; color: #6b6b66; }
 .prose pre { padding-top: 44px; } /* header strip for the language label + copy key, so they never cover code */
 .copy-key { position: absolute; top: 8px; right: 8px; height: 26px; padding: 0 10px; border: 1px solid var(--code-rule); border-radius: 4px;
@@ -169,7 +171,10 @@ a { color: inherit; }
   border-bottom: 1px solid var(--rule-strong); }
 
 .katex { font-size: 1.08em; }
-.katex-display { margin: 1.4em 0; padding: 14px 0; overflow-x: auto; overflow-y: hidden; }
+.katex-display { max-width: 100%; margin: 1.4em 0; padding: 14px 0; overflow-x: auto; overflow-y: hidden; }
+/* long inline math scrolls inside its own box instead of widening the page */
+.prose :not(.katex-display) > .katex { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: bottom; }
+.paper, .prose, .prose li, .admonition { min-width: 0; max-width: 100%; }
 
 /* note: a strip of label-maker tape stuck across a heavy rule */
 .admonition { position: relative; margin: 2.4em 0 1.8em; padding: 30px 22px 18px; border-top: 2px solid var(--ink); background: var(--panel); }
