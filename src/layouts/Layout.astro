@@ -55,7 +55,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
         </div>
         <ul>
           {nav.map((item, n) => 'slug' in item ? (
-            <li><a href={href(item.slug)} aria-current={item.slug === slug ? 'page' : undefined}>{item.label}</a></li>
+            <li class={n > 0 ? 'single' : undefined}><a href={href(item.slug)} aria-current={item.slug === slug ? 'page' : undefined}>{n > 0 && <span class="idx">{pad(n)}</span>}{item.label}</a></li>
           ) : (
             <li class="group">
               <details open={contains(item)}>
@@ -69,7 +69,6 @@ const pad = (n: number) => String(n).padStart(2, '0')
             </li>
           ))}
         </ul>
-        <p class="sidebar-foot label"><span class="led" aria-hidden="true"></span>Work in progress · © 2026 Avik Arefin</p>
       </nav>
 
       <main id="content" class="desk">
