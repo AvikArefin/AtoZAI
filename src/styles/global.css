@@ -235,6 +235,15 @@ a { color: inherit; }
 .paper .prose > h1:first-child::before { flex: 0 0 calc(var(--pad) - 16px); }
 .paper .prose > h1:first-child::after { flex: 1 1 0; min-width: 32px; }
 
+/* ---------- papers page: a list item that starts with an arXiv link becomes a card ---------- */
+.prose ul:has(> li > a[href^="https://arxiv.org/abs/"]:first-child) { list-style: none; padding: 0; display: grid; gap: 12px; }
+.prose li:has(> a[href^="https://arxiv.org/abs/"]:first-child) { position: relative; margin: 0; padding: 16px 18px;
+  border: 1px solid var(--rule); border-left: 3px solid var(--signal); background: var(--panel); color: var(--ink-2);
+  transition: transform .12s, box-shadow .12s, border-color .12s; }
+.prose li:has(> a[href^="https://arxiv.org/abs/"]:first-child):hover { transform: translateY(-2px); border-color: var(--mute) var(--mute) var(--mute) var(--signal); box-shadow: 0 3px 0 var(--key-shadow); }
+.prose li > a[href^="https://arxiv.org/abs/"]:first-child { display: block; margin-bottom: 4px; font: 600 17px/1.35 var(--font-head); color: var(--ink); text-decoration: none; }
+.prose li > a[href^="https://arxiv.org/abs/"]:first-child::after { content: ""; position: absolute; inset: 0; } /* whole card is clickable */
+
 /* ---------- Theatre.js scene: device module with an OLED screen ---------- */
 .scene { margin: 2em 0; padding: 6px; background: var(--panel); border: 1px solid var(--rule); border-radius: 12px;
   box-shadow: 0 1px 0 var(--key-shadow); max-width: none; }

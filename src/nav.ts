@@ -5,7 +5,6 @@ const page = (label: string, slug: string): NavItem => ({ label, slug })
 
 export const nav: NavItem[] = [
   page('Home', 'index'),
-  { label: 'Getting Started', items: [page('Learning Resources', 'learning-resources')] },
   { label: 'Fundamentals', items: [
     page('Seeding', 'seeding'),
     page('Activation Functions', 'activation-functions'),
@@ -61,4 +60,6 @@ export const nav: NavItem[] = [
   page('Explainable AI (XAI)', 'explainable-ai'),
   { label: 'Reinforcement Learning', items: [page('Intro to RL', 'reinforcement-learning')] },
   page('Miscellaneous', 'MISC'),
+  { label: 'Learning Resources', items: [page('Learning Resources', 'learning-resources'), page('Papers', 'papers')] },
+
 ]
