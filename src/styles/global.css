@@ -193,6 +193,19 @@ a { color: inherit; }
   transform: rotate(-2.5deg); box-shadow: 0 1px 0 rgba(0, 0, 0, .25);
 }
 .admonition-title::before { content: '▸ '; }
+/* chat bubbles: `!!! reader` sits left, `!!! author` sits right, each with a "V" tail pointing at its speaker */
+.admonition.reader, .admonition.author { --tail: 14px; width: fit-content; max-width: 85%; margin: 1.6em 0 calc(1.6em + var(--tail));
+  padding: 14px 18px; border: 2px solid var(--mute); border-radius: 0; background: var(--panel); }
+.admonition.author { margin-left: auto; }
+.admonition.reader .admonition-title, .admonition.author .admonition-title { display: none; }
+.admonition.reader::before, .admonition.reader::after, .admonition.author::before, .admonition.author::after {
+  content: ''; position: absolute; top: 100%; border: var(--tail) solid transparent; border-bottom: 0; }
+.admonition.reader::before, .admonition.reader::after { left: 18px; border-left-width: 0; }
+.admonition.author::before, .admonition.author::after { right: 18px; border-right-width: 0; }
+.admonition.reader::before, .admonition.author::before { border-top-color: var(--mute); }
+.admonition.reader::after, .admonition.author::after { margin-top: -3px; border-top-color: var(--panel); border-width: calc(var(--tail) - 3px); border-bottom: 0; }
+.admonition.reader::after { left: 20px; border-left-width: 0; }
+.admonition.author::after { right: 20px; border-right-width: 0; }
 /* tape colours per type: NOTE black · TL;DR cobalt · WARNING signal orange */
 .admonition.tldr { border-top-color: var(--cobalt); }
 .admonition.tldr .admonition-title { background: var(--cobalt); color: #fff; }

@@ -1,28 +1,34 @@
 # Welcome to AtoZ AI
 
-To the reader, hi, I am, Avik, a Mechatronics Engineer with an interest in AI. For a long time now, I have wanted to ACTUALLY FIND OUT IF TRUE INTELLIGENCE CAN BE ARTIFITIALLY MADE. This pursuit ofcourse requires me to learn a great deal in the AI domain, before I start my own research, or as I like to call it `hack things together`. In my pursuit to learn everything in one go starting from start to finish, I have had the misfortune of being demotivated due to complexity and the shear amount of stuff to learn. One too many times. I have doubted my worth, my intelligence, my willpower and I have stopped too. But I tried again and again.
+To the reader, hi, I am, Avik, a Mechatronics Engineer with an interest in AI. For a long time now, I have wanted to ACTUALLY FIND OUT IF TRUE INTELLIGENCE CAN BE ARTIFITIALLY MADE. This pursuit ofcourse requires me to learn a great deal in the AI domain, before I start my own research, or as I like to call it `hack things together`. In my pursuit to learn everything in one go starting from start to finish, I have had the misfortune of being demotivated due to complexity and the shear amount of stuff to learn. One too many times I have failed.
 
 At one point, I scraped the idea of learning everything, and adopted the idea to learn just enough to do the project that I am interested. Like if I am interested in creating an AI that is able detect online handwriting (i.e. the model works with a list of coordinates that describes the strokes, i.e. it does not work with pixel values) I would be less interested in `Computer Vision` and more intersted in `Sequence to Sequence` Models. Along the way, I started keeping notes of these topics that interest me and I started learning from several sources. At one point, I felt like I should do a feel in the gap for the knowledge. Well this book is an attempt to do that. Hence you would see the first versions of this book to be missing a lot of topics, and even the topics that are covered to be not fleshed out well.
 
-### Why in this age of LLMs did you write this?
+### Q&A
 
-> Why would you torture yourself to write a book? From an author's perspective, why would YOU write it? and from a reader's perspective, why would the reader read THIS?
+!!! reader
+    Why would you torture yourself to write a book? From an author's perspective, why would YOU write it? and from a reader's perspective, why would I read THIS?
 
-I am writing this because, I need to learn. As for the reader, I believe the reader would ge a great perspective because I, the Author, am going through similar struggles of learning as well. I believe when we know a lot, we tend to forget the struggles that the even our younger self had to face.
+!!! author
+    I am writing this because, I need to learn. As for the reader, I believe the reader would ge a great perspective because I, the Author, am going through similar struggles of learning as well. I believe when we know a lot, we tend to forget the struggles that the even our younger self had to face.
 
-### Why are cetain sections sloppy, incomplete etc.?
+!!! reader
+    Why are cetain sections sloppy, incomplete etc.?
 
-There are many placeholder text in place, some missing texts / graphs etc. They will be fixed in future versions.
+!!! author
+    Yes, there are many placeholder text in place, some missing texts / graphs etc. They will be fixed in future versions. Keep an eye out :)
 
-### Why PyTorch?
+!!! reader
+    Why PyTorch? Why not JAX, Tensorflow etc., or why not everything from scratch?
 
-> Why not JAX, Tensorflow etc., or why not everything from scratch?
+!!! author
+    1. Except for the specific `PyTorch Essentials` all other chapters try to give a good fundamental understanding that are applicable whether a framework is used or not. The framework is not the focus of this book, but rather the concepts.
 
-1. Except for the specific `PyTorch Essentials` all other chapters try to give a good fundamental understanding that are applicable whether a framework is used or not. The framework is not the focus of this book, but rather the concepts.
+!!! author
+    2. As of writing this book, it is the most popular ML framework
 
-2. As of writing this book, it is the most popular ML framework
-
-3. My convenience :3
+!!! author
+    3. My convenience :3
 
 
 ## How to Use this Book
