@@ -1,2 +1,4 @@
+# RL
+
 - Dense Reward vs Sparse Reward
 dense rewards provide continuous, frequent feedback to the agent for every step or minor progression, whereas sparse rewards only provide feedback when a major milestone, success, or failure is achieved

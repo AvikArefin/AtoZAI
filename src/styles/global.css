@@ -100,6 +100,18 @@ a { color: inherit; }
 .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; overflow-x: hidden; padding: 0 16px 48px 20px;
   border-right: 1px solid var(--rule); font-size: 14px; scrollbar-width: thin; }
 .sidebar ul { list-style: none; margin: 0; padding: 0; }
+.sidebar .search { margin: -8px -16px 10px -20px; } /* edge to edge, right under the header */
+.search input { display: block; width: 100%; padding: 10px 16px 10px 20px; border: 0; border-bottom: 1px solid var(--rule); border-radius: 0; background: var(--key);
+  box-shadow: inset 0 1px 0 var(--key-shadow); color: var(--ink); font: 400 12px/1.4 var(--font-label); letter-spacing: .04em; }
+.search input::placeholder { color: var(--mute); }
+.search input:focus { outline: none; border-bottom-color: var(--signal); }
+.search-results { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--rule); background: var(--panel); }
+.search-results li + li { border-top: 1px solid var(--rule); }
+.sidebar .search-results a { margin: 0; padding: 8px 16px 8px 20px; }
+.search-title { display: block; color: var(--ink); font-weight: 600; }
+.search-excerpt { display: block; margin-top: 2px; font-size: 12px; line-height: 1.45; color: var(--mute); }
+.search-excerpt mark { background: none; color: var(--signal-ink); font-weight: 600; }
+.search-note { padding: 8px 16px 8px 20px; font-size: 12px; color: var(--mute); }
 .sidebar > ul > li { margin-bottom: 2px; }
 .sidebar a { position: relative; display: block; margin: 0 -16px 0 -20px; padding: 6px 16px 6px 30px; color: var(--ink-2);
   text-decoration: none; line-height: 1.4; }
@@ -206,6 +218,24 @@ a { color: inherit; }
 .admonition.reader::after, .admonition.author::after { margin-top: -3px; border-top-color: var(--panel); border-width: calc(var(--tail) - 3px); border-bottom: 0; }
 .admonition.reader::after { left: 20px; border-left-width: 0; }
 .admonition.author::after { right: 20px; border-right-width: 0; }
+/* ticket: `!!! ticket "Label"` + one link -> a tear-off ticket pointing to where a topic lives.
+   An orange "GO" stub bleeds to the paper's left edge, torn from the label + link along a perforation with notches cut in. */
+.admonition.ticket { --cut: var(--pad, 64px); display: grid; grid-template-columns: var(--cut) 1fr; max-width: none;
+  margin: 1.6em calc(-1 * var(--pad, 0px)); padding: 0; border: 0; background: var(--panel); /* full paper width; the tear sits on the text column's edge */
+  -webkit-mask: radial-gradient(circle 8px at var(--cut) 0, #0000 97%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle 8px at var(--cut) 100%, #0000 97%, #000) bottom / 100% 51% no-repeat;
+  mask: radial-gradient(circle 8px at var(--cut) 0, #0000 97%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle 8px at var(--cut) 100%, #0000 97%, #000) bottom / 100% 51% no-repeat; }
+.admonition.ticket:hover::after { background: var(--signal-ink); }
+.admonition.ticket .admonition-title { position: static; grid-column: 2; padding: 16px 28px 0 24px; background: none; color: var(--mute);
+  font-size: 11px; line-height: 1; letter-spacing: .14em; white-space: nowrap; transform: none; box-shadow: none; }
+.admonition.ticket .admonition-title::before { content: none; }
+.admonition.ticket > p:last-child { grid-column: 2; margin: 0; padding: 8px 28px 16px 24px; font-size: 1.05em; }
+.admonition.ticket::after { content: 'GO →'; grid-column: 1; grid-row: 1 / span 2; display: grid; place-items: center; white-space: nowrap;
+  border-right: 2px dashed var(--panel); transition: background .12s; background: var(--signal); color: #fff; font: 400 12px/1 var(--font-label); letter-spacing: .2em; }
+.admonition.ticket a { color: var(--ink); text-decoration: none; }
+@media (max-width: 860px) { .admonition.ticket::after { content: '→'; } } /* the stub is too narrow for the word */
+.admonition.ticket a::after { content: ''; position: absolute; inset: 0; } /* whole ticket is clickable */
 /* tape colours per type: NOTE black · TL;DR cobalt · WARNING signal orange */
 .admonition.tldr { border-top-color: var(--cobalt); }
 .admonition.tldr .admonition-title { background: var(--cobalt); color: #fff; }

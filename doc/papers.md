@@ -37,3 +37,10 @@ Linear-time alternatives to the quadratic attention matrix.
   Assran et al., I-JEPA, 2023. Learns image features by predicting the embeddings of masked regions from the visible context, with no augmentations.
 - [Revisiting Feature Prediction for Learning Visual Representations from Video](https://arxiv.org/abs/2404.08471)
   Bardes et al., V-JEPA, 2024. The same idea applied to video: predict masked spatio-temporal regions in feature space.
+
+## Explainability
+
+Which parts of the input did the model actually use? See [Integrated Gradients](integrated-gradients.md).
+
+- [Axiomatic Attribution for Deep Networks](https://arxiv.org/abs/1703.01365)
+  Sundararajan et al., 2017. Integrated Gradients: attribute a prediction to its inputs by integrating gradients along a path from a baseline.

@@ -66,5 +66,5 @@ Key points:
 - **InstanceNorm** — BatchNorm per sample; used in style transfer.
 - **RMSNorm** — LayerNorm without the mean subtraction; cheaper, used in modern LLMs.
 
-!!! note "Not the same as feature scaling"
+!!! note
     [Feature Scaling](feature_scaling.md) rescales the **input data** once, before training. Normalization layers rescale **activations inside the network** on every forward pass.

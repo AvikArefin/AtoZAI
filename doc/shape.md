@@ -1,19 +1,50 @@
-# Everything about shape
+# Everything about data & shape
 
-## Data
+## Series Data
 
-There is a long standing issue with shapes, errors related to shape missmatches and whatnot.
-In this article, we will go over the basics:
+Let's think of a piece of data. 
 
-In PyTorch: BeaCheS format is used (Batch, Channel, Sequence Length). And it is the most intuitive format.
+Let's say on the user "wrote" the roman of 3, i.e. (III) on a tablet.
+And the tablet stores each stroke as a series of (x, y,) coordinates.
 
-```python
-print(torch.ones([5, 3, 8]))
+```
+input = torch.tensor([
+  [
+    [1.0, 2.1],
+    [1.1, 2.4],
+    [2.0, 4.3],
+  ],
+  [
+    [3.0, 4.1],
+    [2.1, 3.4],
+    [3.1, 5.4],
+    [3.3, 1.2],
+    [4.0, 5.3],
+  ],
+  [
+    [1.0, 2.1],
+    [3.1, 5.4],
+    [2.3, 1.2],
+    [2.0, 4.3],
+  ],
+])
 ```
 
-It can also be thought of as a list of 5 bundle of list of 3 pack where each pack contains 8 items.
+(these are not actual coordinates. don't focus on that.)
 
-For Images,
+It is a tensor of batch of 3, length dynamic (realistically dynamic, but technically we would pad it to a fixed length see: "padding in series data") and feature (channel) of 2.
+
+!!! note
+    Naturally we write things in [Batch, Sequence Length, Feature / Channel] Order. This is also easier to reason about.
+
+## Images Data
+
+In image data the length and feature's place are swapped.
+
+So, we get: 
+
+!!! note
+    Images format: [Batch, Feature, Height, Width]. And all operations related to images also follow the same convention.
 
 ```python
 print(torch.rand([2, 3, 8, 8]))
@@ -24,11 +55,18 @@ print(torch.rand([2, 3, 8, 8]))
 
 ## Opeations
 
-The Rule:
+### The output rule
+
+For convolution and pooling (with padding and stride):
 
 $$
-Output = floor((Input + 2* Padding - Kernal) / Stride ) + 1
+O = \lfloor (I + 2P - K) / S \rfloor + 1
 $$
+
+*(Where $I$ = Input, $P$ = Padding, $K$ = Kernel, $S$ = Stride, $O$ = Output)*
+
+Layers like BatchNorm and ReLU only change the values, not the shape: $O = I$.
+
 ### Conv1d
 
 ```python
@@ -36,14 +74,14 @@ conv1 = nn.Conv1d(in_channels=3, out_channels=5, kernel_size=3, stride=0, paddin
 print(conv1(torch.ones(2, 3, 10)))
 ```
 
-
-Let's first go over what was very strict, which had some flexibility and which had full flexibility:
-
-In the (B, C, S) form, the channel (3) has to be the same as the model layer's input chnnel, they are intended for each other. They must match.
+In the (B, C, S) form, the channel (3) has to be the same as the model layer's input chnnel. They must match.
 
 The Sequence length has some flexiblity (10) but it must follow the output rule, it has to be something that does not give any illegal value. Here the `Input` in the rule and `Sequence Length` represent the same thing. Later, in 2d data `Input` could mean `Height` or `Width`
 
 And B (2) has the most flexibility, it does not matter what the value of b is. (In this context).
+
+!!! note
+    if we wanted to input the first `data` into conv1d then we would have to swap it's sequence length and feature.
 
 ### Conv2d
 

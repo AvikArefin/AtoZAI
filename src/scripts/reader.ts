@@ -32,6 +32,7 @@ async function loadNext() {
   const sheet = await fetchSheet(last.dataset.next)
   if (!sheet || sheets().at(-1) !== last) return
   desk.append(sheet)
+  track(sheet)
   enhance(sheet)
 }
 
@@ -40,10 +41,10 @@ async function loadPrev() {
   if (!desk || !first?.dataset.prev) return
   const sheet = await fetchSheet(first.dataset.prev)
   if (!sheet || sheets()[0] !== first) return
-  // insert above without the page jumping: compensate the scroll by the added height
-  const before = document.documentElement.scrollHeight
+  // inserted above: the anchor keeps the reader's line in place, now and as the sheet grows later
+  settle()
   desk.prepend(sheet)
-  scrollBy(0, document.documentElement.scrollHeight - before)
+  track(sheet)
   enhance(sheet)
 }
 
@@ -87,7 +88,7 @@ function buildToc(sheet: Sheet) {
     a.textContent = headingText(h)
     a.addEventListener('click', e => {
       e.preventDefault()
-      h.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+      jump(h, matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth')
     })
     li.append(a)
     return li
@@ -102,6 +103,82 @@ function buildToc(sheet: Sheet) {
   headings.forEach(h => tocObserver?.observe(h))
 }
 
+// ---------- keeping the reader's place ----------
+// Sheets keep changing height after they land: fonts, KaTeX, Mermaid, scenes, sheets stitched in above.
+// So the place is held as "block n of this sheet sits at y in the document", and whenever it has moved
+// the page is scrolled by the same amount. Document (not screen) coordinates, so the reader's own
+// scrolling is never mistaken for a shift and undone. Saved across reloads too (the dev server reloads
+// on every markdown edit), as "y px from the top of the screen".
+type Anchor = { sheet: Sheet; index: number; y: number }
+let anchor: Anchor | undefined
+// after a reload: the screen offset the anchor block should come back to, held until the page has grown
+// long enough to scroll there (or the reader takes over)
+let pending: number | undefined
+// a sidebar / "On this page" link being scrolled to: a correction mid-way cancels a smooth scroll, so it then lands instantly
+let jumping: HTMLElement | undefined
+function jump(el: HTMLElement, behavior: ScrollBehavior) {
+  jumping = el
+  el.scrollIntoView({ behavior })
+}
+addEventListener('scrollend', () => { jumping = undefined })
+// the reader taking over ends both
+for (const type of ['wheel', 'touchstart', 'keydown', 'pointerdown'])
+  addEventListener(type, () => { pending = jumping = undefined }, { passive: true })
+const docTop = (el: Element) => el.getBoundingClientRect().top + scrollY
+const blocks = (sheet: Sheet) => [...(sheet.querySelector('.prose')?.children ?? [])]
+const blockAt = (a: Anchor) => (a.index < 0 ? a.sheet : blocks(a.sheet)[a.index] ?? a.sheet)
+
+function capture() {
+  if (pending !== undefined) return
+  const line = innerHeight * 0.3
+  const sheet = sheets().find(s => s.getBoundingClientRect().bottom > line) ?? sheets()[0]
+  if (!sheet) return
+  const index = blocks(sheet).findIndex(b => b.getBoundingClientRect().bottom > 0)
+  anchor = { sheet, index, y: docTop(blockAt({ sheet, index, y: 0 })) }
+  save()
+}
+
+function restore() {
+  if (!anchor?.sheet.isConnected) return
+  const y = docTop(blockAt(anchor))
+  const shift = pending === undefined ? y - anchor.y : y - scrollY - pending
+  anchor.y = y
+  if (Math.abs(shift) >= 1) {
+    scrollBy({ top: shift, behavior: 'instant' })
+    jumping?.scrollIntoView({ behavior: 'instant' })
+  }
+  if (pending !== undefined && Math.abs(y - scrollY - pending) < 1) pending = undefined
+}
+
+// undo any shift not yet put back, then take the place afresh (never the other way round: that bakes the shift in)
+function settle() { restore(); capture() }
+
+const resized = new ResizeObserver(restore)
+const track = (sheet: Sheet) => resized.observe(sheet)
+
+const SAVED = 'reader:place'
+function save() {
+  if (!anchor) return
+  const top = pending ?? anchor.y - scrollY
+  try { sessionStorage.setItem(SAVED, JSON.stringify({ href: anchor.sheet.dataset.href, index: anchor.index, top })) } catch {}
+}
+addEventListener('pagehide', save)
+
+// On a reload or back/forward, go back to the saved place, even if the URL still carries the #heading
+// the reader first arrived by. Anything else (a fresh visit, no saved place) is left to the browser.
+function resume(first: Sheet) {
+  const kind = (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined)?.type
+  let saved: { href?: string; index?: number; top?: number } | null = null
+  try { saved = JSON.parse(sessionStorage.getItem(SAVED) ?? 'null') } catch {}
+  const returning = (kind === 'reload' || kind === 'back_forward') && saved?.href === first.dataset.href
+  // the browser's saved scrollY means nothing once sheets are restitched, so it's off only when we restore
+  history.scrollRestoration = returning ? 'manual' : 'auto'
+  if (!returning) return
+  anchor = { sheet: first, index: saved?.index ?? -1, y: 0 }
+  pending = saved?.top ?? 0
+  restore()
+}
+
 // ---------- scroll loop ----------
 let ticking = false
 function onScroll() {
@@ -109,6 +186,7 @@ function onScroll() {
   ticking = true
   requestAnimationFrame(() => {
     ticking = false
+    settle()
     const line = innerHeight * 0.3 // the sheet under this line is the one being read
     const current = sheets().find(s => { const r = s.getBoundingClientRect(); return r.top <= line && r.bottom > line })
     if (current) setActive(current)
@@ -120,7 +198,7 @@ function onScroll() {
 
 if (desk) {
   const first = sheets()[0]
-  if (first) { enhance(first); setActive(first) }
+  if (first) { track(first); enhance(first); setActive(first); resume(first) }
   addEventListener('scroll', onScroll, { passive: true })
   // fill ahead immediately; only pull in the previous sheet once the reader starts moving,
   // so landing on a page (or a #heading) never shifts what they're looking at
@@ -134,6 +212,6 @@ if (desk) {
     if (toggle) toggle.checked = false
     if (!target) return
     e.preventDefault()
-    target.scrollIntoView({ behavior: 'smooth' })
+    jump(target, 'smooth')
   }))
 }

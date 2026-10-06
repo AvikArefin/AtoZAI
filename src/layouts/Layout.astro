@@ -53,7 +53,11 @@ const pad = (n: number) => String(n).padStart(2, '0')
             <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 2.5v11A5.5 5.5 0 0 0 8 2.5z" fill="currentColor"/></svg>
           </button>
         </div>
-        <ul>
+        <div class="search" role="search">
+          <input id="search" type="search" placeholder="Search  /" aria-label="Search the book" autocomplete="off" spellcheck="false" />
+          <ol class="search-results" aria-live="polite" hidden></ol>
+        </div>
+        <ul class="chapters">
           {nav.map((item, n) => 'slug' in item ? (
             <li class={n > 0 ? 'single' : undefined}><a href={href(item.slug)} aria-current={item.slug === slug ? 'page' : undefined}>{n > 0 && <span class="idx">{pad(n)}</span>}{item.label}</a></li>
           ) : (
@@ -74,6 +78,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
       <main id="content" class="desk">
         <article
           class="paper"
+          data-pagefind-body
           data-href={href(slug)}
           data-title={slug === 'index' ? 'AtoZ AI' : `${title} — AtoZ AI`}
           data-prev={prev && href(prev.slug)}
@@ -91,6 +96,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
 
     <script>
       import '../scripts/reader'
+      import '../scripts/search'
 
       // theme key: cycles light ↔ dark, remembered per browser
       document.getElementById('theme')?.addEventListener('click', () => {
