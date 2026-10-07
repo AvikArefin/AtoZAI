@@ -113,3 +113,11 @@ print(pool2d(torch.rand([2, 16, 64, 64])))
 `floor((64 + 2*0 - 2) / 2) + 1 = floor(62 / 2) + 1 = 31 + 1 = 32`
 
 Out shape `(2, 16, 32, 32)`. The channels remained same. For this example, `16`. Often used for the halfing the spatial dimensions.
+
+| Layer | Expected shape |
+| --- | --- |
+| `nn.Conv1d` | `(B, C, L)` |
+| `nn.GRU` (default) | `(L, B, C)` |
+| `nn.GRU(batch_first=True)` | `(B, L, C)` |
+| `nn.Linear` | `(..., C)`: features last, everything before is left alone |
+| `nn.CTCLoss` | `log_probs`: `(L, B, C)` (time first, `log_softmax` over classes), `targets`: `(B, S)`, `input_lengths` & `target_lengths`: `(B,)` |

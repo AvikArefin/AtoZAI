@@ -2,7 +2,7 @@
 
 To the reader, hi, I am, Avik, a Mechatronics Engineer with an interest in AI. For a long time now, I have wanted to ACTUALLY FIND OUT IF TRUE INTELLIGENCE CAN BE ARTIFITIALLY MADE. This pursuit ofcourse requires me to learn a great deal in the AI domain, before I start my own research, or as I like to call it `hack things together`. In my pursuit to learn everything in one go starting from start to finish, I have had the misfortune of being demotivated due to complexity and the shear amount of stuff to learn. One too many times I have failed.
 
-At one point, I scraped the idea of learning everything, and adopted the idea to learn just enough to do the project that I am interested. Like if I am interested in creating an AI that is able detect online handwriting (i.e. the model works with a list of coordinates that describes the strokes, i.e. it does not work with pixel values) I would be less interested in `Computer Vision` and more intersted in `Sequence to Sequence` Models. Along the way, I started keeping notes of these topics that interest me and I started learning from several sources. At one point, I felt like I should do a feel in the gap for the knowledge. Well this book is an attempt to do that. Hence you would see the first versions of this book to be missing a lot of topics, and even the topics that are covered to be not fleshed out well.
+At one point, I scraped the idea of learning everything, and adopted the idea to learn just enough to do the project that I am interested. Like if I am interested in creating an AI that is able detect online handwriting (i.e. the model works with a list of coordinates that describes the strokes, i.e. it does not work with pixel values) I would be less interested in `Machine Vision` and more intersted in `Sequence to Sequence` Models. Along the way, I started keeping notes of these topics that interest me and I started learning from several sources. At one point, I felt like I should do a feel in the gap for the knowledge. Well this book is an attempt to do that. Hence you would see the first versions of this book to be missing a lot of topics, and even the topics that are covered to be not fleshed out well.
 
 ### Q&A
 
@@ -22,7 +22,7 @@ At one point, I scraped the idea of learning everything, and adopted the idea to
     Why PyTorch? Why not JAX, Tensorflow etc., or why not everything from scratch?
 
 !!! author
-    1. Except for the specific `PyTorch Essentials` all other chapters try to give a good fundamental understanding that are applicable whether a framework is used or not. The framework is not the focus of this book, but rather the concepts.
+    1. Except for the specific `Coding Essentials` all other chapters try to give a good fundamental understanding that are applicable whether a framework is used or not. The framework is not the focus of this book, but rather the concepts.
 
 !!! author
     2. As of writing this book, it is the most popular ML framework

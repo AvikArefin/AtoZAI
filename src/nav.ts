@@ -19,10 +19,11 @@ export const nav: NavItem[] = [
     page('Data Splitting', 'data-splitting'),
     page('Hyperparameter Optimization', 'hyperparameters_and_model_optimization'),
   ] },
-  { label: 'PyTorch Essentials', items: [
+  { label: 'Coding Essentials', items: [
     page('PyTorch Fundamentals', 'pytorch_fundamentals'),
     page('Data Preparation', 'pytorch_data_preparation'),
     page('Moving Tensors to Device', 'pytorch_to_device'),
+    page('Train vs Eval Mode', 'pytorch_train_eval_mode'),
   ] },
   { label: 'Machine Learning [Non deep learning based]', items: [
     page('Linear Regression', 'linear-regression'),
@@ -34,7 +35,7 @@ export const nav: NavItem[] = [
     page('Optimizers', 'optimizer'),
     page('Normalization Layers', 'normalization'),
   ] },
-  { label: 'Computer Vision', items: [
+  { label: 'Machine Vision', items: [
     page('Noise & Filters', 'noise-and-filters'),
     page('Reading a CNN', 'reading-a-convolutional-neural-network'),
     page('ResNet', 'resnet'),
@@ -43,6 +44,8 @@ export const nav: NavItem[] = [
   { label: 'Sequence to Sequence', items: [
     page('RNN', 'rnn'),
     page('LSTM & GRU', 'lstm-gru'),
+    page('CTC', 'ctc'),
+    page('Online Handwriting Recognition', 'online-handwriting-recognition'),
     page('Tokenization', 'tokenizetion'),
     page('Embeddings', 'embedding'),
     page('Positional Encoding', 'positional-encoding'),

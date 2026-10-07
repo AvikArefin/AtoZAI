@@ -40,7 +40,7 @@ Linear-time alternatives to the quadratic attention matrix.
 
 ## Explainability
 
-Which parts of the input did the model actually use? See [Integrated Gradients](integrated-gradients.md).
+Which parts of the input did the model actually use? See [Integrated Gradients](../x-ai/integrated-gradients.md).
 
 - [Axiomatic Attribution for Deep Networks](https://arxiv.org/abs/1703.01365)
   Sundararajan et al., 2017. Integrated Gradients: attribute a prediction to its inputs by integrating gradients along a path from a baseline.

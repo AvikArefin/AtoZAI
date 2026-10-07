@@ -17,7 +17,7 @@ Annotation:
 How convolution, pooling, BatchNorm, ReLU etc. change the size is covered in one place:
 
 !!! ticket "The output rule"
-    [$O = \lfloor (I + 2P - K) / S \rfloor + 1$](shape.md#the-output-rule)
+    [$O = \lfloor (I + 2P - K) / S \rfloor + 1$](../fundamentals/shape.md#the-output-rule)
 
 Let's take LeNet as an example:   
 ```python
@@ -59,7 +59,7 @@ Output : Num\_classes ( 9 in this case )
 
 ### Step 0: Throw away what doesn't change the size
 
-Only convs and pools change height and width. BatchNorm and ReLU don't ([the output rule](shape.md#the-output-rule)), so cross them out:
+Only convs and pools change height and width. BatchNorm and ReLU don't ([the output rule](../fundamentals/shape.md#the-output-rule)), so cross them out:
 
 ```
 Conv2d(k=3, p=1)
@@ -72,7 +72,7 @@ Linear(32*7*7, ...)
 
 ### Step 1: Simplify each layer once
 
-Put each layer's numbers into [the output rule](shape.md#the-output-rule), $O = \lfloor (I + 2P - K) / S \rfloor + 1$:
+Put each layer's numbers into [the output rule](../fundamentals/shape.md#the-output-rule), $O = \lfloor (I + 2P - K) / S \rfloor + 1$:
 
 | Layer | Plug in | Simplifies to |
 |---|---|---|

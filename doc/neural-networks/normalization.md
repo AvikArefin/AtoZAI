@@ -67,4 +67,4 @@ Key points:
 - **RMSNorm** — LayerNorm without the mean subtraction; cheaper, used in modern LLMs.
 
 !!! note
-    [Feature Scaling](feature_scaling.md) rescales the **input data** once, before training. Normalization layers rescale **activations inside the network** on every forward pass.
+    [Feature Scaling](../fundamentals/feature_scaling.md) rescales the **input data** once, before training. Normalization layers rescale **activations inside the network** on every forward pass.

@@ -1,5 +1,5 @@
 // Keeps the existing MkDocs-flavoured markdown in doc/ working without editing it:
-//  - `[x](page.md#a)` links  -> site routes
+//  - `[x](page.md#a)` / `[x](../folder/page.md#a)` links  -> site routes (by file name)
 //  - `!!! note "Title"` + indented body -> <aside class="admonition">
 import { visit } from 'unist-util-visit'
 import { fromMarkdown } from 'mdast-util-from-markdown'
@@ -12,7 +12,7 @@ const ADMONITION = /^(!!!|\?\?\?\+?)\s+(\w+)(?:\s+["“]([^"”]*)["”])?\s*$/
 export default function remarkMkdocs({ base = '' } = {}) {
   return tree => {
     visit(tree, 'link', node => {
-      const m = node.url.match(/^(?!\w+:\/\/)(?:\.\/)?([\w\-/]+)\.md(#.*)?$/)
+      const m = node.url.match(/^(?!\w+:\/\/)(?:[\w\-.]*\/)*([\w\-]+)\.md(#.*)?$/)
       if (!m) return
       const slug = m[1] === 'index' ? '' : `${m[1]}/`
       node.url = `${base}/${slug}${m[2] ?? ''}`
