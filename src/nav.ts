@@ -16,6 +16,7 @@ export const nav: NavItem[] = [
     page('CPU & GPU Bottlenecks', 'cpu_gpu_bottleneck'),
     page('Diagnosing Model Performance', 'diagnosing_model_performance'),
     page('Architecture Bugs & Tests', 'architecture-bugs-and-tests'),
+    page('Data Bugs & Tests', 'data-bugs-and-tests'),
     page('Data Splitting', 'data-splitting'),
     page('Hyperparameter Optimization', 'hyperparameters_and_model_optimization'),
   ] },
