@@ -12,7 +12,7 @@ export const nav: NavItem[] = [
     page('Evaluation Metrics', 'evaluation-matrics'),
     page('Feature Scaling', 'feature_scaling'),
     page('Everything about data & shape', 'shape'),
-    page('Practical Tensor Multiplication', 'practical-tensor-multiplication'),
+    page('Tensor Multiplication', 'tensor-multiplication'),
     page('CPU & GPU Bottlenecks', 'cpu_gpu_bottleneck'),
     page('Diagnosing Model Performance', 'diagnosing_model_performance'),
     page('Architecture Bugs & Tests', 'architecture-bugs-and-tests'),
