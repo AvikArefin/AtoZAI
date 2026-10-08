@@ -1,4 +1,4 @@
-# RNN: Recurrent Neural Networks
+# RNN
 
 For our explanation we can divide data in the structure below (This is not a complete structure):   
 1. Unordered:   
@@ -23,7 +23,7 @@ x_{\text{mod}} &= w_1 \cdot x \\
 \end{aligned}
 $$
    
-# Types of RNN   
+## Types of RNN   
 There are four types of RNN are:   
 1. One to One   
 2. One to Many   
@@ -31,7 +31,7 @@ There are four types of RNN are:
 4. Many to Many   
    
    
-# TORCH RANDN   
+## TORCH RANDN   
 ```python
 torch.randn(hidden_size, input_size, device=device)
 ```

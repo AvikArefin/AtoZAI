@@ -1,4 +1,4 @@
-# EVALUATION METRICS   
+# Evaluation Metrics  
 These can be **non-differentiable**. Primarily used for humans to understand how the model is performing. This is used after training, during the evaluation / manual test period.
 
 Note: `Classified` should be read as "classified as class A" below.   

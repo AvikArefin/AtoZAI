@@ -1,4 +1,4 @@
-# PyTorch Transforms
+# Data Augmentation
 
 **Math vs. PyTorch:** Math uses column vectors ($M \cdot v$). PyTorch uses row vectors ($v \cdot M^T$). Transpose the matrix.
 

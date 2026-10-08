@@ -1,10 +1,10 @@
 # Noise & Filters   
-# Noise Models   
+## Noise Models   
 1. Spatial   
 2. Frequency   
    
    
-# Noise Probability Density Functions   
+## Noise Probability Density Functions   
    
 1. Gaussian Noise   
 2. Rayleigh Noise   
@@ -20,7 +20,7 @@ Electrical/mechanical interference during acquisition
 Can be removed by frequency domain analysis   
    
 Estimation of noise parameter   
-# Spatial Filtering   
+## Spatial Filtering   
 
 $$
 g(x, y) = f(x,y) + q(x, y)
@@ -39,12 +39,12 @@ Mean Filter
 - Contraharmonic mean filter (works for both types of salt and pepper noise)   
    
    
-# Order Statistics Filters   
+## Order Statistics Filters   
 - Median Filter (works great for bipolar noise)   
 - Max/Min filter   
 - Midpoint filter   
 - Alpha-trimmed mean filter   
    
-# Adaptive Filters   
+## Adaptive Filters   
 - Local Noise Reduction   
 - Median Filter (see algorithm in textbook)   

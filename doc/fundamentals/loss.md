@@ -1,4 +1,4 @@
-# LOSS   
+# Loss Functions   
 Loss can be seen as a type of difference between real value and predicted value by the model. The actual definition depends on the type of loss. An Important differentiator between a loss and regular performance indicator is that loss must be **differentiable.** The math needs smooth derivatives so the model can calculate gradients and learn. Hence, loss is used *during* the training.
   
 ## Types of Loss Functions   
