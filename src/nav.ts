@@ -45,8 +45,7 @@ export const nav: NavItem[] = [
   { label: 'Sequence to Sequence', items: [
     page('RNN', 'rnn'),
     page('LSTM & GRU', 'lstm-gru'),
-    page('CTC', 'ctc'),
-    page('Online Handwriting Recognition', 'online-handwriting-recognition'),
+    page('Online Handwriting Recognition', 'hwr'),
     page('Tokenization', 'tokenizetion'),
     page('Embeddings', 'embedding'),
     page('Positional Encoding', 'positional-encoding'),
