@@ -46,7 +46,8 @@ plt.scatter(x, y) # x, y must be of same size
 plt.show()
 ```
 
-![Scatter plot of the generated data](images/linear-regression-scatter.png)
+<div class="scene" data-scene="linear-regression-data"></div>
+
 ## Computing the cost function   
 ```python
 # Compute predictions
