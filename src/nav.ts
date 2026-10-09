@@ -13,6 +13,7 @@ export const nav: NavItem[] = [
     page('Feature Scaling', 'feature_scaling'),
     page('Everything about data & shape', 'shape'),
     page('Tensor Multiplication', 'tensor-multiplication'),
+    page('Einsum', 'einsum'),
     page('CPU & GPU Bottlenecks', 'cpu_gpu_bottleneck'),
     page('Diagnosing Model Performance', 'diagnosing_model_performance'),
     page('Architecture Bugs & Tests', 'architecture-bugs-and-tests'),
@@ -25,6 +26,7 @@ export const nav: NavItem[] = [
     page('Data Preparation', 'pytorch_data_preparation'),
     page('Moving Tensors to Device', 'pytorch_to_device'),
     page('Train vs Eval Mode', 'pytorch_train_eval_mode'),
+    page('Einops: Einstein Operations', 'einops'),
   ] },
   { label: 'Machine Learning [Non deep learning based]', items: [
     page('Linear Regression', 'linear-regression'),
