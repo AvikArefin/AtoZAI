@@ -1,0 +1,53 @@
+---
+// Dev-only editing view: one scene filling the window, with Theatre Studio, and no autoplay so the
+// playhead moves only when you move it. `npm run build` generates no pages here.
+import '@fontsource-variable/inter'
+import '@fontsource-variable/space-grotesk'
+import '@fontsource-variable/jetbrains-mono'
+import '../../styles/global.css'
+
+export function getStaticPaths() {
+  if (!import.meta.env.DEV) return []
+  return Object.keys(import.meta.glob('../../scenes/*.scene.ts')).map(path => ({
+    params: { scene: path.replace(/^.*\/(.+)\.scene\.ts$/, '$1') },
+  }))
+}
+
+const { scene } = Astro.params
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{scene} · Studio — AtoZ AI</title>
+    <link rel="preload" href={`${base}/fonts/DepartureMono-Regular.woff2`} as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t } catch {}
+    </script>
+  </head>
+  <body>
+    <main class="canvas">
+      <div class="scene" data-scene={scene}></div>
+    </main>
+    <script>
+      import { mountScenes } from '../../scenes/mount'
+      mountScenes(document, { edit: true })
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* An editor, not a page: dark canvas, bare stage, nothing but Studio around it. */
+  html, body { height: 100%; overflow: hidden; background: #141416; }
+  /* The free area between Studio's default panels: outline (left), props (right), timeline (bottom, ~40% of the height).
+     The stage is the largest 16:9 box that fits in it. */
+  .canvas { position: fixed; inset: 16px 300px calc(40vh + 20px) 200px; display: grid; place-items: center; container-type: size; }
+  .canvas .scene { width: min(100cqw, 100cqh * 16 / 9); margin: 0; padding: 0; border: 0; background: none; }
+  .canvas .scene svg { border-radius: 0; outline: 1px solid #2e2e2b; }
+  /* Playback lives in Studio here (timeline, Space to play), so the docs control strip goes */
+  .canvas .scene-bar { display: none; }
+  /* Astro's dev toolbar sits over the timeline */
+  astro-dev-toolbar { display: none !important; }
+</style>

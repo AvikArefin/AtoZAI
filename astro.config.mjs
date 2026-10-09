@@ -3,6 +3,7 @@ import { unified } from '@astrojs/markdown-remark'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import remarkMkdocs from './src/remark-mkdocs.mjs'
+import sceneSave from './src/scene-save.mjs'
 
 const base = '/AtoZAI'
 
@@ -11,6 +12,7 @@ export default defineConfig({
   base,
   trailingSlash: 'always',
   vite: {
+    plugins: [sceneSave({ base })], // dev only: the scene edit page's Save key writes src/scenes/<name>.theatre.json
     // pre-bundle lazily imported deps at startup; otherwise Vite re-optimizes mid-session and
     // already-open pages fail with "Failed to fetch dynamically imported module"
     optimizeDeps: { include: ['@theatre/core', '@theatre/studio', 'mermaid'] },

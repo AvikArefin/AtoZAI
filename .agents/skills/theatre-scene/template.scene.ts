@@ -1,23 +1,32 @@
 // __TOPIC__ explainer: __ONE_LINE_STORY__ (e.g. "raw data → transform → why it matters").
-// Every position, size, colour and timing is a Theatre.js prop: tune it in Studio (`npm run dev`),
-// export the JSON to src/scenes/__NAME__.theatre.json to ship the edits.
-import { getProject, types as t, type IProjectConfig } from '@theatre/core'
+// Positions, sizes and colours are Theatre.js props; every animated value is a keyframed track on the
+// timeline. Tune both in Studio (`npm run dev`, /AtoZAI/studio/__NAME__/), export the JSON to src/scenes/__NAME__.theatre.json to ship.
+import { getProject, types as t, val, type IProjectConfig } from '@theatre/core'
+import { initialState, type Tracks } from './timeline'
+import type { SceneOptions } from './mount'
 
 // ---------- 1. saved Studio edits (optional file, picked up automatically) ----------
 const savedState = Object.values(
   import.meta.glob<IProjectConfig['state']>('./__NAME__.theatre.json', { eager: true, import: 'default' }),
 )[0]
 
-// ---------- 2. constants: do not change SEQ ----------
+// ---------- 2. constants + starting keyframes ----------
 const NS = 'http://www.w3.org/2000/svg'
-const D = 24 // story length in seconds (8–10 s per slide)
-const SEQ = 10 // Theatre's default sequence length. Never change; we play it slower instead.
+const LENGTH = 24 // story length in seconds (8–10 s per slide); the sequence plays at 1 unit = 1 s
+
+// [seconds, value, curve to next: 'linear' (default) | 'ease' | 'hold']. Studio shows each as a track.
+// Once __NAME__.theatre.json exists it wins, so later retiming happens in Studio, not here.
+const TRACKS: Tracks = {
+  Timeline: {
+    slide: [[0, 0, 'hold'], [8, 1, 'hold'], [16, 2]],
+    text: [[0, 0], [0.8, 1, 'hold'], [8, 0], [8.8, 1, 'hold'], [16, 0], [16.8, 1]],
+    dotsIn: [[0.2, 0], [1.8, 1]],
+    morph: [[8, 0], [10, 1]], // __REPLACE: one 0→1 track per thing that moves
+  },
+}
 
 // ---------- 3. helpers: copy as-is ----------
 const clamp = (x: number, a = 0, b = 1) => Math.min(b, Math.max(a, x))
-const ease = (x: number) => (x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2)
-/** 0 before `a`, 1 after `b`, eased in between. The ONLY way to animate. */
-const seg = (p: number, a: number, b: number) => ease(clamp((p - a) / (b - a)))
 const lerp = (a: number, b: number, k: number) => a + (b - a) * k
 type RGBA = { r: number; g: number; b: number; a: number }
 const rgba = (c: RGBA) => `rgba(${(c.r * 255) | 0},${(c.g * 255) | 0},${(c.b * 255) | 0},${c.a})`
@@ -34,7 +43,7 @@ const slides: [string, string, string][] = [
   ['__Slide 3 title__', '__short subtitle__', '__one-sentence caption__'],
 ]
 
-export default function mount(host: HTMLElement) {
+export default function mount(host: HTMLElement, { autoplay }: SceneOptions) {
   // ---------- 6. SVG stage (1280×720 coordinate space, always) ----------
   const svg = document.createElementNS(NS, 'svg')
   svg.setAttribute('viewBox', '0 0 1280 720')
@@ -48,7 +57,7 @@ export default function mount(host: HTMLElement) {
   const set = (e: Element, attrs: Record<string, string | number>) => { for (const k in attrs) e.setAttribute(k, String(attrs[k])) }
 
   // ---------- 7. Theatre objects: everything a human may want to tweak ----------
-  const project = getProject('AtoZAI · __TOPIC__', savedState ? { state: savedState } : {})
+  const project = getProject('AtoZAI · __TOPIC__', { state: savedState ?? initialState('Scene', LENGTH, TRACKS) })
   const sheet = project.sheet('Scene')
   const pos = (x: number, y: number) => ({ x: t.number(x, { range: [0, 1280] }), y: t.number(y, { range: [0, 720] }) })
   const layout = sheet.object('Layout', {
@@ -61,9 +70,11 @@ export default function mount(host: HTMLElement) {
     after: t.rgba({ r: 0.302, g: 0.545, b: 1, a: 1 }), // cobalt
     pointRadius: t.number(5, { range: [1, 14] }),
   })
-  const beats = sheet.object('Beats', {
-    slide2: t.number(8, { range: [0, D] }),
-    slide3: t.number(16, { range: [0, D] }),
+  // One prop per TRACKS entry, same names. Defaults only apply if a track is deleted: use the final frame.
+  const progress = (v = 1) => t.number(v, { range: [0, 1] })
+  const timeline = sheet.object('Timeline', {
+    slide: t.number(2, { range: [0, 2] }),
+    text: progress(), dotsIn: progress(), morph: progress(),
   })
 
   // ---------- 8. scene graph: create every element ONCE, here ----------
@@ -74,16 +85,14 @@ export default function mount(host: HTMLElement) {
   const gPlot = el('g')
   const dots = points.map(() => el('circle', {}, gPlot))
 
-  // ---------- 9. render: pure function of (Theatre values, playhead). Only `set(...)` here ----------
+  // ---------- 9. render: pure function of the Theatre values. Only `set(...)` here ----------
   function render() {
-    const L = layout.value, S = style.value, B = beats.value
-    const p = sheet.sequence.position * (D / SEQ) // story time in seconds, 0..D
-    const slide = p < B.slide2 ? 0 : p < B.slide3 ? 1 : 2
-    const local = p - [0, B.slide2, B.slide3][slide] // seconds since this slide began
+    const L = layout.value, S = style.value, T = timeline.value
+    const slide = clamp(Math.round(T.slide), 0, slides.length - 1)
     const { x: cx, y: cy, size } = L.plot, half = size / 2
 
-    // text (fades in at the start of each slide)
-    const fade = seg(local, 0, 0.8)
+    // text (the `text` track fades it in at the start of each slide)
+    const fade = T.text
     set(title, { x: L.title.x, y: L.title.y, 'font-size': L.title.fontSize, opacity: fade })
     set(sub, { x: L.title.x, y: L.title.y - L.title.fontSize - 4, opacity: fade })
     set(caption, { x: L.caption.x, y: L.caption.y, opacity: fade })
@@ -92,12 +101,12 @@ export default function mount(host: HTMLElement) {
     caption.textContent = slides[slide][2]
 
     // __REPLACE: the visual story. Example: dots appear, then move on slide 2
-    const k = seg(p, B.slide2, B.slide2 + 2)
+    const k = T.morph
     points.forEach((d, i) => {
       set(dots[i], {
         cx: cx - half + d.x * size,
         cy: cy + half - lerp(d.y, d.x, k) * size,
-        r: S.pointRadius * seg(p, 0.2 + i * 0.03, 0.8 + i * 0.03),
+        r: S.pointRadius * T.dotsIn,
         fill: rgba(k > 0.5 ? S.after : S.before),
       })
     })
@@ -116,25 +125,28 @@ export default function mount(host: HTMLElement) {
   playBtn.className = 'key key--signal'; playBtn.type = 'button'; playBtn.textContent = '▶ Play'
   bar.append(name, time, restartBtn, playBtn)
   host.appendChild(bar)
-  const tick = () => { time.textContent = `${(sheet.sequence.position * (D / SEQ)).toFixed(1).padStart(4, '0')}s` }
+  const tick = () => { time.textContent = `${sheet.sequence.position.toFixed(1).padStart(4, '0')}s` }
+  const end = () => val(sheet.sequence.pointer.length)
 
   let playing = false
   const play = async () => {
-    if (sheet.sequence.position >= SEQ - 0.01) sheet.sequence.position = 0
+    if (sheet.sequence.position >= end() - 0.01) sheet.sequence.position = 0
     playing = true; playBtn.textContent = '❚❚ Pause'; playBtn.setAttribute('aria-pressed', 'true')
-    await sheet.sequence.play({ rate: SEQ / D })
+    await sheet.sequence.play()
     playing = false; playBtn.textContent = '▶ Play'; playBtn.setAttribute('aria-pressed', 'false')
   }
   playBtn.onclick = () => (playing ? sheet.sequence.pause() : play())
   restartBtn.onclick = () => { sheet.sequence.position = 0; play() }
 
-  for (const o of [layout, style, beats]) o.onValuesChange(render)
+  for (const o of [layout, style, timeline]) o.onValuesChange(render)
   let visible = true
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (!visible) sheet.sequence.pause() }).observe(host)
   const loop = () => { if (visible) { render(); tick() } requestAnimationFrame(loop) }
   project.ready.then(() => {
     render(); loop()
+    if (!autoplay) return // edit page: Studio owns the playhead
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) play()
-    else sheet.sequence.position = SEQ // reduced motion: show the final frame
+    else sheet.sequence.position = end() // reduced motion: show the final frame
   })
+  return project
 }
