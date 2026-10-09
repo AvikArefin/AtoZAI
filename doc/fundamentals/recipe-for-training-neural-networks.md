@@ -19,8 +19,8 @@ Find your phase from what you **observe**, not from what you'd like to work on n
 | You haven't looked through the data yet, or you can't describe its quirks | [1. Data](#1-become-one-with-the-data) | Look at the data before writing model code. |
 | No full train + eval loop yet, the loss at init is off, or the model **can't** overfit one small batch | [2. Skeleton](#2-set-up-the-end-to-end-skeleton--get-dumb-baselines) | Something is broken. Debug the pipeline; don't change the model. |
 | On the full dataset, the **training** loss stays high (underfitting) | [3. Overfit](#3-overfit) | Make the model fit the training set: train longer, fix the learning rate, add capacity. |
-| Training loss is low, but validation loss stalls or rises and the gap keeps growing (**overfitting**) | [4. Regularize](#4-regularize) | Close the gap: more data, augmentation, dropout, weight decay, early stopping. **Not** a bigger model yet. |
-| Train and val are both good and close together | [5. Tune](#5-tune) | Search the hyperparameters. |
+| Training loss is low, but validation loss stalls or rises and the gap keeps growing (**overfitting**) | [4. Regularize](#4-regularize) | Trade some training loss for validation loss: more data, augmentation, dropout, weight decay, early stopping. **Not** a bigger model yet. |
+| More regularisation no longer improves the validation loss | [5. Tune](#5-tune) | Search the hyperparameters. |
 | Tuned, and you want the last few percent | [6. Squeeze](#6-squeeze-out-the-juice) | Ensembles, train longer. |
 
 **Example.** Train loss keeps falling while val loss bottoms out and then climbs. Rows 1–3 are false (the model *can* fit the training set), row 4 is true: you are in **4. Regularize**. The model overfitting here is a *symptom* to fix, not the "Overfit" step.
@@ -97,15 +97,15 @@ If the loss is far above that, check the head.
 Find a model big enough to drive the *training* loss down, then regularise it. If no model can fit the training set, something is wrong.
 
 - **Don't be a hero.** Copy the simplest well-performing architecture from the most related paper, e.g. ResNet-50 for images.
-- **Adam is safe.** Adam with a learning rate of 3e-4 is forgiving. A well-tuned SGD can win later, but its good learning-rate range is narrow.
+- **Adam is safe.** Adam with a learning rate of 3e-4 is forgiving. For ConvNets a well-tuned SGD usually does slightly better, but its good learning-rate range is narrow. Sequence models usually use Adam anyway; follow whatever the closest papers do.
 - **Add complexity one piece at a time**, and check that each one gives the boost you expected.
 - **Don't trust learning rate decay defaults.** Schedules borrowed from other code are often tied to epoch counts from a different dataset. Start with a constant learning rate and tune the decay at the end.
 
 ### 4. Regularize
 
-**You're here when:** the training loss is low but the validation loss stalls or rises, and the gap between them grows (**overfitting**). **Done when:** val loss is close to train loss and both are acceptably low. **Next:** step 5. If regularizing pushes the training loss back up too far, go back to step 3.
+**You're here when:** the training loss is low but the validation loss stalls or rises, and the gap between them grows (**overfitting**). **Done when:** more regularisation no longer improves the validation loss. The goal is the best validation score, not the smallest gap. **Next:** step 5. If regularizing pushes the training loss back up too far, go back to step 3.
 
-Work on the gap, not the architecture: first keep the best-val checkpoint so you don't lose the good epoch, then try the items below one at a time, re-checking the curves after each.
+First keep the best-val checkpoint so you don't lose the good epoch, then try the items below one at a time, re-checking the curves after each.
 
 Give up some training accuracy to gain validation accuracy:
 
