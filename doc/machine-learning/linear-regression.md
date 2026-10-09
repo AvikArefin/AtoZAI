@@ -14,7 +14,7 @@ Let's first take an actual linear model … add some noise to it, then use a ran
 ```python
 import numpy as np
 np.random.seed(13)
-print(np.random.randint(10, 1))
+print(np.random.randint(1, 10))
 ```
    
 We use randn (this uses the bell shaped normal distribution) instead of rand (which uses regular distribution) because in the later section internally a sigmoid function will be used.
