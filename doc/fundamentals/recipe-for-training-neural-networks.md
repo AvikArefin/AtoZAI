@@ -136,7 +136,3 @@ Visualise the first-layer weights and the activations too. Noisy filters or odd 
 
 - **Ensembles** reliably add a little accuracy. You can distil them into a single network if inference cost matters.
 - **Leave it training.** Networks often keep improving long after the validation loss seems to have levelled off.
-
-## Takeaway
-
-By the end you understand the data, the problem and the tools, you trust your training/evaluation pipeline, and every jump in complexity came with an improvement you predicted. Only then is it time to read lots of papers and run lots of experiments.
