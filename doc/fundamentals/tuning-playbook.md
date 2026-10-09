@@ -1,6 +1,6 @@
 # Deep Learning Tuning Playbook
 
-Source: [google-research/tuning_playbook](https://github.com/google-research/tuning_playbook) ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)), with the author list, table of contents and closing sections removed. The figures are redrawn as animations from data traced off the original plots.
+Source: [google-research/tuning_playbook](https://github.com/google-research/tuning_playbook) ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)), with the author list, table of contents and closing sections removed. The figures are redrawn as animations from data traced off the original plots, and editor's notes mark where a caption claims more than its figure shows.
 
 ## Who is this document for?
 
@@ -823,7 +823,7 @@ if issues are discovered, revise the experiments and rerun them.*
 <p align="center"><b>Figure 1:</b> Examples of bad search space boundaries and acceptable search space boundaries.</p>
 
 -   The plots in [Figure 1](#figure-1) show the error rate (lower is better)
-    against the initial learning rate.
+    against the peak learning rate.
 -   If the best points cluster towards the edge of a search space (in some
     dimension), then the search space boundaries might need to be expanded until
     the best observed point is no longer close to the boundary.
@@ -1762,7 +1762,7 @@ training failures is an active area of research.*
 <div class="scene" data-scene="stride-instability"></div>
 
 
-<p align="center"><b>Figure 4:</b> Changing the strides in a single residual block (2x2 -> 1x1) in a WideResnet results in training instability. This does not degrade performance at low learning rates, but high learning rates no longer train well due to the instability. Applying 1000 steps of learning rate warmup resolves this particular instance of instability, allowing stable training at max learning rate of .1.</p>
+<p align="center"><b>Figure 4:</b> Changing the strides in a single residual block (2x2 -> 1x1) in a WideResnet results in training instability. This does not degrade performance at low learning rates, but high learning rates no longer train well due to the instability. Applying 1000 steps of learning rate warmup resolves this particular instance of instability, allowing stable training at max learning rate of .1. <em>(Editor's note: the warmup run is not shown in the figure.)</em></p>
 
 #### Identifying unstable workloads
 
@@ -1819,7 +1819,7 @@ To check for this, we can train for an abbreviated run of just \~500 steps using
 
 <div class="scene" data-scene="warmup-length"></div>
 
-<p align="center"><b>Figure 6:</b> An example of instability during a warmup period (note the horizontal axis log scale). 40k steps of warmup was needed for successful training in this case.</p>
+<p align="center"><b>Figure 6:</b> An example of instability during a warmup period (note the horizontal axis log scale). 40k steps of warmup was needed for successful training in this case. <em>(Editor's note: the plotted 40k run ends at about step 40k, where its warmup finishes, so the figure doesn't show it training at the full learning rate.)</em></p>
 
 ##### When to apply learning rate warmup
 
