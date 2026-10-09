@@ -15,6 +15,8 @@ export const nav: NavItem[] = [
     page('Tensor Multiplication', 'tensor-multiplication'),
     page('Einsum', 'einsum'),
     page('CPU & GPU Bottlenecks', 'cpu_gpu_bottleneck'),
+    page('Inductive Bias', 'inductive-bias'),
+    page('Equivariance & Invariance', 'equivariance-and-invariance'),
     page('Diagnosing Model Performance', 'diagnosing_model_performance'),
     page('Architecture Bugs & Tests', 'architecture-bugs-and-tests'),
     page('Data Bugs & Tests', 'data-bugs-and-tests'),
@@ -59,6 +61,7 @@ export const nav: NavItem[] = [
     page('Multi-Task Learning (MTL)', 'multi-task-learning-mtl'),
     page('Joint Embedding Predictive Architecture (JEPA)', 'jepa'),
     page('Transfer Learning', 'transfer-learning'),
+    page('Equivariant Neural Networks', 'equivariant-networks'),
     page('Generative Adversarial Networks (GAN)', 'gan'),
   ] },
   { label: 'Explainable AI (XAI)', items: [

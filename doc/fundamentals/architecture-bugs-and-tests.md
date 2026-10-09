@@ -180,7 +180,7 @@ For when the six tests pass and something still seems off.
 | Parameter count | Count the parameters | Equals the known number | A layer added, or weights shared, by accident |
 | Custom backward | `torch.autograd.gradcheck` in float64 | Passes | A hand-written gradient that is wrong |
 | Frozen means frozen | Freeze a block, train a few steps | Its weights *and BatchNorm buffers* are unchanged | BatchNorm running stats still update in `.train()` even when frozen |
-| Shift equivariance (CNN) | Shift the image by a multiple of the total stride | The feature map shifts too (compare the interior) | Misaligned padding or cropping, e.g. in U-Net skips |
+| [Shift equivariance](equivariance-and-invariance.md) (CNN) | Shift the image by a multiple of the total stride | The feature map shifts too (compare the interior) | Misaligned padding or cropping, e.g. in U-Net skips |
 | Export | Load the TorchScript/ONNX model and run a new batch size | Same result | Shapes traced for one size only |
 | Save and resume | Save mid-run, restore, continue | Same curve as an uninterrupted run | Optimizer, scheduler or RNG state that was not saved |
 | Reproducibility | Train twice with the same seed | Identical metrics | Unseeded randomness. On GPU, set `torch.use_deterministic_algorithms(True)` |
