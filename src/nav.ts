@@ -23,6 +23,7 @@ export const nav: NavItem[] = [
     page('Data Splitting', 'data-splitting'),
     page('Hyperparameter Optimization', 'hyperparameters_and_model_optimization'),
     page('A Recipe for Training Neural Networks', 'recipe-for-training-neural-networks'),
+    page('Deep Learning Tuning Playbook', 'tuning-playbook'),
   ] },
   { label: 'Coding Essentials', items: [
     page('PyTorch Fundamentals', 'pytorch_fundamentals'),
