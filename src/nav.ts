@@ -32,7 +32,7 @@ export const nav: NavItem[] = [
     page('Train vs Eval Mode', 'pytorch_train_eval_mode'),
     page('Einops: Einstein Operations', 'einops'),
   ] },
-  { label: 'Machine Learning [Non deep learning based]', items: [
+  { label: 'Classical Machine Learning', items: [
     page('Linear Regression', 'linear-regression'),
     page('SVM', 'svm'),
   ] },
