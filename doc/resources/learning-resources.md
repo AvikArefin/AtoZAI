@@ -1,5 +1,6 @@
 # Learning Resources   
 
+1. [Practical Deep Learning for Coders (fast.ai)](https://course.fast.ai/)
 1. [Interpretable Machine Learning Book](https://christophm.github.io/interpretable-ml-book/)
 1. [Dive into Deep Learning](https://d2l.ai/index.html)
 1. [byhand.ai](https://www.byhand.ai/)    
