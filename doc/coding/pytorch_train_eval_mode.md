@@ -37,3 +37,6 @@ for epoch in range(EPOCHS):
 
 !!! warning
     Forgetting `eval()`: Validation scores become noisy (dropout still on), and BatchNorm's running stats get updated with validation data.
+
+!!! note "Train loss higher than val loss"
+    The flip side: the train loss is computed with dropout on and the val loss with it off, so the same weights score worse on the train side. To compare them fairly, measure the train loss in `eval()` too.

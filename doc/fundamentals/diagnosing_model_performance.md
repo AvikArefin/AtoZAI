@@ -45,6 +45,8 @@ Validation loss does not need to be checked detect underfitting. But it will sta
     *   *Fix:* The model is too powerful for the amount of data you have. Reduce the size of the network.
 *   **Diagnosis 3: Under-regularization.**
     *   *Fix:* Increase dropout, add weight decay, use data augmentation, or implement early stopping (stop training right before the validation loss starts rising).
+*   **Keep the best checkpoint.** Save the weights every time the validation metric reaches a new best. The last epoch of an overfitting run is its most overfit one, and the best epoch may already be good enough.
+*   **Don't add capacity yet.** A bigger model memorizes even more, so the gap widens. Close the gap first, then revisit the architecture.
 
 
 - **Checking Convergence:** How do you know when to stop training? A final accuracy score won't tell you if training for 10 more epochs would have helped. A graph showing the loss flattening out (asymptoting) confirms the model has converged.
@@ -144,6 +146,13 @@ xychart-beta
     line "Validation Loss" [0.70, 0.45, 0.32, 0.25, 0.20, 0.18, 0.16, 0.15, 0.15, 0.15]
 ```
 
+Before blaming the split, rule out these more common causes. Both make the train loss look worse than it really is:
+
+* **Train loss is an epoch average, val loss is not.** The train loss averages every batch of the epoch, including the early ones from when the model was worse. The val loss is measured once, with the end-of-epoch weights. While the model is improving fast (the first few epochs), val looks better almost by definition.
+* **Dropout and augmentation only run during training.** The train loss is computed on a handicapped model and harder inputs; the val loss is not. See [Train vs Eval Mode](../coding/pytorch_train_eval_mode.md).
+
+*Fair check:* at the end of the epoch, recompute the train loss in `eval()` mode on the train set (or a fixed subset of it) and compare that with the val loss. Only if val is still lower, for the whole run, does the split need a closer look.
+
 
 ## 5. Data & Model Quality Diagnostics
 
@@ -205,11 +214,11 @@ Modern ML pipelines require automated data and model quality checks beyond raw l
 | **Can't overfit a single batch** | Pipeline Bug | Check data loader, loss function, gradients, labels. |
 | **Train loss decreasing, Val loss decreasing** | Still Learning | Keep training! Increase epochs. |
 | **Train loss high, Val loss high (Flat)** | Underfitting (High Bias) | Increase model size, decrease regularization, check learning rate. |
-| **Train loss low, Val loss high (Gap)** | Overfitting (High Variance) | Get more data, use data augmentation, increase regularization, add early stopping, reduce model size. |
+| **Train loss low, Val loss high (Gap)** | Overfitting (High Variance) | Keep the best checkpoint. Get more data, use data augmentation, increase regularization, add early stopping, reduce model size. Don't add capacity. |
 | **Both curves flat across dataset sizes** | Capacity Limit Reached | More data won't help. Use a more powerful model architecture. |
 | **Train & Val improving, but persistent large gap** | Unrepresentative Train Dataset | Increase training dataset size relative to validation dataset. |
 | **Val loss noisy/erratic around Train loss** | Unrepresentative Validation Dataset | Increase validation dataset size for a more reliable generalization metric. |
-| **Val loss consistently lower than Train loss** | Validation Dataset Too Easy | Re-evaluate dataset split; check for data leaks or biased validation sampling. |
+| **Val loss lower than Train loss** | Usually a measurement artifact (epoch-averaged train loss, dropout/augmentation on in training) | Recompute train loss in `eval()` at epoch end. If val is still lower for the whole run: Validation Dataset Too Easy, so re-evaluate the split and check for data leaks or biased validation sampling. |
 | **Loss drops to near zero in Epoch 1** | Data Leakage | Audit features with Deepchecks/Evidently AI for target correlation; fit scalers only on training split. |
 | **Train vs Val distributions diverge** | Data Drift | Run Deepchecks `TrainTestFeatureDrift` / Evidently AI to isolate shifted features; collect domain data. |
 | **High training loss with high model capacity** | Label Noise | Use Cleanlab (`find_label_issues`) to locate and clean mislabeled training samples. |

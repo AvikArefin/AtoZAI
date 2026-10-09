@@ -78,6 +78,8 @@ The loss is −log of that total: small when the model favours sequences that sp
 - **Overfit one batch** (~16 samples) first. If loss won't approach 0, the setup is broken.
 - **Print decoded predictions** every epoch, not just loss.
 - Early training often predicts **only blanks**. That is normal for a while; decoded text should appear later.
+- **Pick the best checkpoint by val CER, not val loss.** CTC val loss can start rising while val CER keeps falling: the model grows more confident on the characters it still gets wrong, which the loss punishes and [CER](#cer-character-error-rate) doesn't notice.
+- **Overfitting?** Augment the strokes before touching the architecture (slant, scale, rotate, jitter, dropped points; see the [roadmap](#fast--accurate-roadmap)). Augment the training set only.
 
 ## From model output to a score
 
