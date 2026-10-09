@@ -1,0 +1,416 @@
+{
+  "definitionVersion": "0.4.0",
+  "revisionHistory": [
+    "J3HT6ZWjOh5xn4VE",
+    "Id01z4GsLh0ckGbG",
+    "uvfczs"
+  ],
+  "sheetsById": {
+    "Scene": {
+      "staticOverrides": {
+        "byObject": {}
+      },
+      "sequence": {
+        "type": "PositionalSequence",
+        "length": 25.37,
+        "subUnitsPerUnit": 30,
+        "tracksByObject": {
+          "Timeline": {
+            "trackIdByPropPath": {
+              "[\"slide\"]": "Timeline.slide",
+              "[\"text\"]": "Timeline.text",
+              "[\"axesIn\"]": "Timeline.axesIn",
+              "[\"badDraw\"]": "Timeline.badDraw",
+              "[\"baseline\"]": "Timeline.baseline",
+              "[\"wasted\"]": "Timeline.wasted",
+              "[\"dimBad\"]": "Timeline.dimBad",
+              "[\"goodDraw\"]": "Timeline.goodDraw",
+              "[\"lag\"]": "Timeline.lag"
+            },
+            "trackData": {
+              "Timeline.slide": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Timeline.slide",
+                "keyframes": [
+                  {
+                    "id": "Timeline.slide#0",
+                    "position": 0,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0
+                    ],
+                    "connectedRight": true,
+                    "type": "hold"
+                  },
+                  {
+                    "id": "Timeline.slide#1",
+                    "position": 9,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "connectedRight": true,
+                    "type": "hold"
+                  },
+                  {
+                    "id": "Timeline.slide#2",
+                    "position": 15.233,
+                    "value": 2,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": false,
+                    "type": "bezier"
+                  }
+                ]
+              },
+              "Timeline.text": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Timeline.text",
+                "keyframes": [
+                  {
+                    "id": "Timeline.text#0",
+                    "position": 0,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.text#1",
+                    "position": 0.8,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0
+                    ],
+                    "connectedRight": true,
+                    "type": "hold"
+                  },
+                  {
+                    "id": "Timeline.text#2",
+                    "position": 9,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.text#3",
+                    "position": 9.8,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0
+                    ],
+                    "connectedRight": true,
+                    "type": "hold"
+                  },
+                  {
+                    "id": "Timeline.text#4",
+                    "position": 14.167,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.text#5",
+                    "position": 15.267,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": false,
+                    "type": "bezier"
+                  }
+                ]
+              },
+              "Timeline.axesIn": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Timeline.axesIn",
+                "keyframes": [
+                  {
+                    "id": "Timeline.axesIn#0",
+                    "position": 0.2,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.axesIn#1",
+                    "position": 1.2,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": false,
+                    "type": "bezier"
+                  }
+                ]
+              },
+              "Timeline.badDraw": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Timeline.badDraw",
+                "keyframes": [
+                  {
+                    "id": "Timeline.badDraw#0",
+                    "position": 1.2,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.badDraw#1",
+                    "position": 6.5,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": false,
+                    "type": "bezier"
+                  }
+                ]
+              },
+              "Timeline.baseline": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Timeline.baseline",
+                "keyframes": [
+                  {
+                    "id": "Timeline.baseline#0",
+                    "position": 9.5,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.baseline#1",
+                    "position": 10.7,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": false,
+                    "type": "bezier"
+                  }
+                ]
+              },
+              "Timeline.wasted": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Timeline.wasted",
+                "keyframes": [
+                  {
+                    "id": "Timeline.wasted#0",
+                    "position": 11,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.wasted#1",
+                    "position": 12.5,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.wasted#2",
+                    "position": 14.267,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.wasted#3",
+                    "position": 15.433,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": false,
+                    "type": "bezier"
+                  }
+                ]
+              },
+              "Timeline.dimBad": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Timeline.dimBad",
+                "keyframes": [
+                  {
+                    "id": "Timeline.dimBad#0",
+                    "position": 16.233,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.dimBad#1",
+                    "position": 17.233,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": false,
+                    "type": "bezier"
+                  }
+                ]
+              },
+              "Timeline.goodDraw": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Timeline.goodDraw",
+                "keyframes": [
+                  {
+                    "id": "Timeline.goodDraw#0",
+                    "position": 17.233,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.goodDraw#1",
+                    "position": 22.233,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": false,
+                    "type": "bezier"
+                  }
+                ]
+              },
+              "Timeline.lag": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Timeline.lag",
+                "keyframes": [
+                  {
+                    "id": "Timeline.lag#0",
+                    "position": 22.733,
+                    "value": 0,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": true,
+                    "type": "bezier"
+                  },
+                  {
+                    "id": "Timeline.lag#1",
+                    "position": 24.233,
+                    "value": 1,
+                    "handles": [
+                      0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ],
+                    "connectedRight": false,
+                    "type": "bezier"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -44,8 +44,7 @@ Build the full training + evaluation loop around a model you can't get wrong, li
 - **Fix the random seed for the entire project** so two runs give the same result, if no model architecture has been changed (or data)
 - **Simplify.** Turn off data augmentation and anything else fancy.
 - **Evaluate on the full test set** add significant digits to your eval. When plotting the test loss run the evaluation over the entire (large) test set. Do not just plot test losses over batches and then rely on smoothing them in Tensorboard. We are in pursuit of correctness and are very willing to give up time for staying sane.
-- **Verify the loss at init.** For example, a softmax over `n_classes` should start near `-log(1/n_classes)`. The same default values can be derived for L2 regression, Huber losses, etc. See [Initialise well](#initialise-well-and-verify-the-loss-at-init) below.
-- **Initialise well.** Set the final-layer bias to match the target mean or the class ratio, so you don't get "hockey stick" loss curves. See [Initialise well](#initialise-well-and-verify-the-loss-at-init) below.
+- **Initialise the output layer and verify the loss at init.** Start the final bias at the best constant guess so you don't get a "hockey stick" loss curve, then check that the step-0 loss matches it (e.g. `log(n_classes)` for a balanced softmax). See [Initialise well](#initialise-well-and-verify-the-loss-at-init) below.
 - **Human baseline.** Track a metric people can read, such as accuracy, and compare it with human performance.
 - **Input-independent baseline.** Train an input-independent baseline, example: Zero the inputs. Your model with real inputs should do clearly better.
 - **Overfit one batch.** With just a few examples, you should reach near-zero loss, and the predictions should line up with the labels.
@@ -59,56 +58,34 @@ Build the full training + evaluation loop around a model you can't get wrong, li
 
 #### Initialise well and verify the loss at init
 
+
 We would gladly accept an initialisation that already gives the model the highest accuracy and the lowest loss. But since that not possible, what we want is the **best input-independent guess**: predict the mean of the targets, or the class frequencies. 
 
-**What a wrong init looks like.** At init the weights are random, so the output is roughly the final layer's bias plus noise. Two things can go wrong:
+**What a wrong init looks like.**  `hockey stick loss curve`: a steep drop at the start (the network fixing the offset or calming down its overconfidence), then a flat stretch where the real learning happens. 
+This causes wasted steps.
 
-- **The output starts in the wrong place.** If your targets have a mean of 50 and the bias is 0, every prediction is about 0. The first few hundred steps go into slowly pushing the output up to 50, and the network learns nothing about the inputs during that time.
-- **The output starts confidently wrong.** If the final-layer weights are large, the logits come out large and random. The softmax then puts something like 99% probability on a random class. Cross-entropy punishes confident mistakes very hard, so the initial loss is far above the "uniform guess" value.
 
-Both cases give the **hockey stick** loss curve: a steep drop at the start (the network fixing the offset or calming down its overconfidence), then a flat stretch where the real learning happens. That steep part wasted steps, and the large early gradients can also knock the hidden layers into a bad state.
+<div class="scene" data-scene="hockey-stick"></div>
 
-**How to do it.** Make the final-layer weights small (e.g. multiply them by 0.01 or initialise them to zero), so the output at init is about equal to the bias. Then set the bias to the best constant guess:
+**Prevent it** by starting the output at the best input-independent guess:
 
-| Task | Set the final bias to | Prediction at init |
-|---|---|---|
-| Regression (MSE) | mean of the targets, $b = \bar{y}$ | $\bar{y}$ for every input |
-| Binary classification (sigmoid), $p$ = fraction of positives | $b = \log\frac{p}{1-p}$ | $p$ for every input |
-| $C$ classes (softmax), $p_c$ = frequency of class $c$ | $b_c = \log p_c$ | the class frequencies |
-| $C$ balanced classes (softmax) | $b_c = 0$ (all equal) | $1/C$ for every class |
-
-For example, with a 1:10 ratio of positives to negatives, $p = 1/11$, so $b = \log\frac{1/11}{10/11} = \log 0.1 \approx -2.3$, and the network predicts about 9% at init instead of 50%.
-
-In PyTorch:
+- **Regression:** standardise the targets (zero mean, unit variance), or set the final bias to the target mean $\bar{y}$.
+- **Classification:** set the final bias to the log class frequencies, $b_c = \log p_c$. For a binary sigmoid that's $b = \log\frac{p}{1-p}$. Balanced classes need nothing: $b = 0$.
+- **Shrink the final-layer weights** (e.g. ×0.01), so the output at init is that bias and not confident noise.
 
 ```python
 with torch.no_grad():
-    model.head.weight.mul_(0.01)             # small weights, so output ≈ bias
+    model.head.weight.mul_(0.01)                   # output ≈ bias
     model.head.bias.copy_(torch.log(class_freqs))  # or y_train.mean() for regression
 ```
 
-**What the loss should be at init.** Once the init is right, the step-0 loss is predictable. Compute it and compare it with what you see. If they don't match, something is off.
+**Check it.** The step-0 loss is then predictable:
 
-- **$C$ balanced classes, cross-entropy:** the model gives $1/C$ to the correct class, so
+- $\log C$ for $C$ balanced classes, e.g. 2.30 for 10 classes or 6.91 for 1000.
+- The label entropy $-\sum_c p_c \log p_c$ for imbalanced classes.
+- The target variance for MSE.
 
-    $$
-    \text{loss}_0 = -\log\frac{1}{C} = \log C
-    $$
-
-    For $C = 52$ (e.g. the upper- and lowercase English letters), $\text{loss}_0 = \log 52 \approx 3.95$, and the accuracy is about $1/52 \approx 1.9\%$ (random guessing).
-
-| Classes $C$ | Expected loss at init, $\log C$ | Accuracy at init |
-|---|---|---|
-| 2 | 0.69 | 50% |
-| 10 | 2.30 | 10% |
-| 27 | 3.30 | 3.7% |
-| 52 | 3.95 | 1.9% |
-| 1000 | 6.91 | 0.1% |
-
-- **Imbalanced classes, cross-entropy:** the loss equals the entropy of the label distribution, $-\sum_c p_c \log p_c$. For the 1:10 example that's about **0.30**. With the bias left at 0, it would be $\log 2 \approx 0.69$.
-- **Regression, MSE:** with the bias at the target mean, the loss is the **variance** of the targets. With the bias at 0, it is $\text{variance} + \bar{y}^2$. For a mean of 50, that extra $50^2 = 2500$ is the hockey stick.
-
-If the loss at step 0 is far above these numbers (e.g. 20 instead of 3.95 for 52 classes), the network starts out confidently wrong. Shrink the final-layer weights and check the bias.
+If the loss is far above that, check the head.
 
 ### 3. Overfit
 
