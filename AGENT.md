@@ -1,7 +1,7 @@
 This project is an Astro static site with Theatre.js animations. See README.md.
 
 Rules:
-- Content is markdown in `doc/`; don't rewrite existing pages unless asked. Sidebar is `src/nav.ts`.
+- Content is markdown in `doc/`. Sidebar is `src/nav.ts`.
 - Animations are `src/scenes/<name>.scene.ts`, embedded with `<div class="scene" data-scene="<name>"></div>`.
   Follow `feature-scaling.scene.ts`: every position, size and colour is a Theatre prop (Layout / Style),
   and all timing is keyframes on the `Timeline` object (declared in `TRACKS`, built by `src/scenes/timeline.ts`),
